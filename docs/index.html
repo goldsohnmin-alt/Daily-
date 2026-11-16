@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>일일 금융지표</title>
+<style>
+  :root { --bg:#ffffff; --fg:#1f2430; --muted:#6b7280; --line:#e2e5ea; --head:#f3f5f8; --accent:#2c4a9a; --warn-bg:#fff4d6; --warn-fg:#7a5600; --bad-bg:#fde8e8; --bad-fg:#9b1c1c; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#14171c; --fg:#e6e8ec; --muted:#9aa1ad; --line:#2b313b; --head:#1c2129; --accent:#8fb0ff; --warn-bg:#3a2f12; --warn-fg:#f3d58a; --bad-bg:#3b1a1a; --bad-fg:#f5b5b5; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font-family:-apple-system,"Malgun Gothic","Apple SD Gothic Neo",sans-serif; font-size:14px; line-height:1.5; }
+  main { max-width:1200px; margin:0 auto; padding:20px 16px 60px; }
+  h1 { font-size:20px; margin:0 0 4px; }
+  .sub { color:var(--muted); margin-bottom:16px; }
+  .box { border-radius:8px; padding:10px 14px; margin:12px 0; }
+  .warn { background:var(--warn-bg); color:var(--warn-fg); }
+  .bad { background:var(--bad-bg); color:var(--bad-fg); }
+  .bad ul { margin:6px 0 0; padding-left:18px; }
+  .bar { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:14px 0; }
+  .tabs button, .btn { border:1px solid var(--line); background:var(--head); color:var(--fg); padding:7px 14px; border-radius:6px; cursor:pointer; font-size:14px; }
+  .tabs button.on { background:var(--accent); color:#fff; border-color:var(--accent); }
+  .btn.primary { background:var(--accent); color:#fff; border-color:var(--accent); }
+  .btn:disabled { opacity:.45; cursor:not-allowed; }
+  a.btn { text-decoration:none; display:inline-block; }
+  .msg { color:var(--muted); }
+  .wrap { overflow-x:auto; border:1px solid var(--line); border-radius:8px; margin:10px 0 24px; }
+  table { border-collapse:collapse; width:100%; font-variant-numeric:tabular-nums; }
+  th, td { padding:5px 9px; border-bottom:1px solid var(--line); text-align:right; white-space:nowrap; }
+  th { background:var(--head); position:sticky; top:0; }
+  td.l, th.l { text-align:left; }
+  td.miss { background:var(--warn-bg); color:var(--warn-fg); text-align:center; }
+  h2 { font-size:15px; margin:18px 0 0; }
+  .refs { max-width:360px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>일일 금융지표</h1>
+  <div class="sub" id="meta">불러오는 중…</div>
+  <div id="errors"></div>
+
+  <div class="bar">
+    <span class="tabs">
+      <button id="tab-prev" class="on">전일</button>
+      <button id="tab-prevprev">전전일</button>
+    </span>
+    <button class="btn primary" id="copy">E2:V44 복사 (엑셀 붙여넣기용)</button>
+    <a class="btn" href="daily_data.xlsx" download>엑셀 파일 내려받기</a>
+    <span class="msg" id="copymsg"></span>
+  </div>
+
+  <h2 id="ref-title">참고 지표</h2>
+  <div class="wrap refs"><table id="ref"></table></div>
+
+  <h2>채권 시가평가수익률 (5개사 평균, 단위 %)</h2>
+  <div class="wrap"><table id="matrix"></table></div>
+</main>
+
+<script>
+let D = null, cur = 'prev';
+
+function fmt(v) { return v === null || v === undefined ? null : v; }
+
+function render() {
+  const day = D.days[cur];
+  document.getElementById('ref-title').textContent = '참고 지표 (기준일 ' + day.date + ')';
+
+  // 참고 지표
+  const ref = document.getElementById('ref');
+  ref.innerHTML = '';
+  D.ref_labels.forEach(l => {
+    const v = fmt(day.ref[l]);
+    const tr = document.createElement('tr');
+    tr.innerHTML = '<td class="l">' + l + '</td>' + (v === null ? '<td class="miss">미수집</td>' : '<td>' + v + '</td>');
+    ref.appendChild(tr);
+  });
+
+  // 채권 표
+  const t = document.getElementById('matrix');
+  let h = '<tr><th class="l">종류</th><th class="l">종류명</th><th class="l">신용등급</th>';
+  D.maturities.forEach(m => h += '<th>' + m + '</th>');
+  h += '</tr>';
+  if (!day.matrix) {
+    h += '<tr><td class="miss" colspan="' + (3 + D.maturities.length) + '">채권 표 수집 실패</td></tr>';
+  } else {
+    day.matrix.forEach((row, i) => {
+      const lab = D.row_labels[i];
+      h += '<tr><td class="l">' + lab[0] + '</td><td class="l">' + lab[1] + '</td><td class="l">' + lab[2] + '</td>';
+      row.forEach(v => h += '<td>' + (v === null ? '-' : v) + '</td>');
+      h += '</tr>';
+    });
+  }
+  t.innerHTML = h;
+  document.getElementById('copy').disabled = !day.matrix;
+}
+
+// 엑셀 E2:V44 와 같은 모양(탭 구분)으로 복사: E~T 16열 + U(라벨) + V(값)
+function buildTSV() {
+  const day = D.days[cur];
+  const lines = [];
+  for (let r = 0; r < 43; r++) {
+    const cells = day.matrix[r].map(v => v === null ? '-' : String(v));
+    if (r < D.ref_labels.length) {
+      const l = D.ref_labels[r], v = day.ref[l];
+      cells.push(l, v === null ? '' : String(v));
+    } else {
+      cells.push('', '');
+    }
+    lines.push(cells.join('\t'));
+  }
+  return lines.join('\n');
+}
+
+async function copyTSV() {
+  const msg = document.getElementById('copymsg');
+  const text = buildTSV();
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch (e) {
+    const ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); } finally { document.body.removeChild(ta); }
+  }
+  const missing = D.ref_labels.filter(l => D.days[cur].ref[l] === null);
+  msg.textContent = missing.length
+    ? '복사됨. 단, 미수집 항목은 빈칸입니다: ' + missing.join(', ')
+    : '복사됨. 원본 엑셀의 E2 셀에 붙여넣기 하세요.';
+}
+
+function setTab(k) {
+  cur = k;
+  document.getElementById('tab-prev').classList.toggle('on', k === 'prev');
+  document.getElementById('tab-prevprev').classList.toggle('on', k === 'prevprev');
+  document.getElementById('copymsg').textContent = '';
+  render();
+}
+
+fetch('data.json?_=' + Date.now()).then(r => r.json()).then(d => {
+  D = d;
+  document.getElementById('meta').textContent = '수집 시각 ' + d.generated_at + ' (KST) · 매 영업일 아침 자동 갱신';
+  if (d.errors.length) {
+    const el = document.getElementById('errors');
+    el.className = 'box bad';
+    el.innerHTML = '<b>일부 항목을 가져오지 못했습니다.</b> 아래 값 중 "미수집"은 직접 확인해 주세요.<ul>' +
+      d.errors.map(e => '<li>' + e.replace(/</g, '&lt;') + '</li>').join('') + '</ul>';
+  }
+  document.getElementById('tab-prev').onclick = () => setTab('prev');
+  document.getElementById('tab-prevprev').onclick = () => setTab('prevprev');
+  document.getElementById('copy').onclick = copyTSV;
+  render();
+}).catch(() => {
+  document.getElementById('meta').textContent = '아직 데이터가 없습니다. GitHub의 Actions 탭에서 한 번 실행해 주세요.';
+});
+</script>
+</body>
+</html>

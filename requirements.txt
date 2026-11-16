@@ -1,0 +1,7 @@
+selenium>=4.6
+webdriver-manager
+pandas
+beautifulsoup4
+requests
+lxml
+openpyxl
