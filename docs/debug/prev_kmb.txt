@@ -1,0 +1,669 @@
+url: https://www.kmbco.com/kor/rate/deri_rate.do
+title: 한국자금중개(주)
+page_source_length: 124741
+iframe_count: 0
+
+<html lang="ko"><head>
+	<meta http-equiv="X-UA-compatible" content="ie=edge">
+	<meta http-equiv="content-type" content="text/html;charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+	<meta name="format-detection" content="telephone=no">
+	<title>한국자금중개(주)</title>
+	<link rel="stylesheet" href="/common/css/tui-chart.min.css">
+	<link rel="stylesheet" href="/common/css/style.css">
+	<script src="/common/js/jquery-3.4.1.min.js"></script>
+	<script src="/common/js/jquery-ui.min.js"></script>
+	<script src="/common/js/tui-chart-all.min.js"></script>
+	<script src="/common/js/function.js"></script>
+    <script>
+        $(document).ready(function() {
+            var KMBtheme = {
+            		legend: {
+                        label: {
+                        	fontSize: 15
+                	    }
+                    },
+                    xAxis: {
+                        label: {
+                    	    fontSize: 15
+                        }
+                    },
+                    yAxis: {
+                        label: {
+                            fontSize: 15
+                        }
+                    }
+            };
+            tui.chart.registerTheme('KMBtheme', KMBtheme)
+            var container1 = document.getElementById('graph1');
+            var data1 = {
+                categories: ['26/10/13','26/10/14','26/10/15','26/10/16','26/10/19','26/10/20','26/10/21','26/10/22','26/10/23','26/10/26','26/10/27','26/10/28','26/10/29','26/10/30','26/11/02','26/11/03','26/11/04','26/11/05','26/11/06','26/11/09','26/11/10','26/11/11','26/11/12','26/11/13'],                
+                series: [
+                    {
+                        name: '1Y',
+                        data: [3.56,3.595,3.605,3.59,3.6075,3.57,3.57,3.6,3.5875,3.555,3.5325,3.57,3.57,3.56,3.585,3.57,3.55,3.53,3.47,3.495,3.5375,3.595,3.5825,3.5975]
+                    },
+                    {
+                        name: '2Y',
+                        data: [3.7825,3.805,3.7925,3.76,3.8,3.76,3.745,3.7775,3.76,3.715,3.675,3.7325,3.71,3.685,3.705,3.6925,3.66,3.6325,3.5575,3.5625,3.58,3.685,3.6825,3.705]
+                    },
+                    {
+                        name: '3Y',
+                        data: [3.88,3.9,3.87,3.83,3.87,3.83,3.8125,3.84,3.815,3.78,3.7275,3.79,3.765,3.7275,3.7625,3.74,3.6975,3.6475,3.5825,3.5925,3.6025,3.7025,3.7075,3.735]
+                    },
+                    {
+                        name: '4Y',
+                        data: [3.935,3.9575,3.9125,3.87,3.91,3.8725,3.8525,3.8725,3.85,3.8125,3.7625,3.8275,3.805,3.7625,3.8025,3.7775,3.73,3.6675,3.6075,3.6125,3.6175,3.72,3.725,3.76]
+                    },
+                    {
+                        name: '5Y',
+                        data: [3.97,3.995,3.9425,3.89,3.9325,3.9025,3.875,3.895,3.8675,3.835,3.7825,3.8525,3.83,3.785,3.825,3.7975,3.74,3.675,3.625,3.6275,3.63,3.7325,3.7375,3.7775]
+                    },
+                    {
+                        name: '7Y',
+                        data: [4.01,4.04,3.9775,3.925,3.96,3.9275,3.9025,3.915,3.88,3.8475,3.795,3.8775,3.8525,3.81,3.8475,3.8125,3.755,3.69,3.6475,3.6425,3.645,3.7475,3.7525,3.805]
+                    },
+                    {
+                        name: '10Y',
+                        data: [4.0475,4.0725,4.0075,3.9525,3.9825,3.9475,3.925,3.93,3.89,3.8525,3.805,3.8975,3.87,3.83,3.865,3.8225,3.765,3.695,3.665,3.655,3.66,3.7625,3.765,3.83]
+                    }    
+                ]
+            };
+            var options1 = {
+                    chart: {
+                        width: Math.min(1100, document.body.clientWidth),
+                        height: Math.max(Math.min(1100, document.body.clientWidth)/2.5+60, 300),
+                        format: '1,000'
+                    },
+                    yAxis: [{
+                       chartType: 'column',
+                       labelMargin: 0
+                    }, {
+                       chartType: 'line',
+                       labelMargin: 0
+                    }],
+                    xAxis: {
+                        labelMargin: 2
+                    },
+                    series: {
+                        line: {
+                            showDot: false,
+                            width: 1
+                        }
+                    },
+                    tooltip: {
+                        grouped: true,
+                    },
+                    legend: {
+                        align: 'bottom',
+                        showCheckbox: false
+                    },
+                    chartExportMenu: {
+                        visible: false
+                    },
+                    theme: 'KMBtheme'
+                }
+                
+                var chartResizeTimeout1,
+                    labelIntervalNum1 = 1,
+                    labelYwidth1 = 100
+                    setLabelIntervalNum1 = function () {
+                        labelIntervalNum1 = 1;
+                        if (($(container1).width() - labelYwidth1) / (data1.categories.length) < 80 && ($(container1).width() - labelYwidth1) / (data1.categories.length) > 40) {
+                            labelIntervalNum1 = Math.ceil(data1.categories.length * 40 / ($(container1).width() - labelYwidth1));
+                            while (($(container1).width() - labelYwidth1) / (data1.categories.length / labelIntervalNum1) < 80 && ($(container1).width() - labelYwidth1) / (data1.categories.length / labelIntervalNum1) > 40) {
+                                labelIntervalNum1 += 1;
+                            }
+                        } else if (($(container1).width() - labelYwidth1) / (data1.categories.length) < 25) {
+                            labelIntervalNum1 = Math.ceil(data1.categories.length * 25 / ($(container1).width() - labelYwidth1));
+                        }
+                    }
+                
+                setLabelIntervalNum1();
+                options1.xAxis.labelInterval = labelIntervalNum1;
+                
+                var chart1 = tui.chart.lineChart(container1, data1, options1);
+                
+                $(window).on('resize', function() {
+                    clearTimeout(chartResizeTimeout1);
+                    
+                    chartResizeTimeout1 = setTimeout(function () {
+                        setLabelIntervalNum1();
+                        chart1.options.xAxis.labelInterval = labelIntervalNum1;
+                        setTimeout(function () {
+                            chart1.resize({
+                                width: Math.min(1100, document.body.clientWidth),
+                                height: Math.max(Math.min(1100, document.body.clientWidth)/2.5+60, 300),
+                            });
+                        }, 100);
+                    }, 100);
+                });
+        });
+        
+        function setSearchDate(month) {
+    		var frm = document.frm;
+
+    		var resDate = getDateAddMonth(replace("2026-11-13", "-", ""), Number("-" + month));
+
+    		frm.s_date.value = resDate.substring(0, 4) + "-" + resDate.substring(4, 6) + "-" + resDate.substring(6, 8);
+    		frm.e_date.value = "2026-11-13";
+    		
+    	}
+        
+        function excelDownload() {
+    		location.href = "deri_rate_excel.do?sDate=" + $("#s_date").val() + "&eDate=" + $("#e_date").val() + "&dType=IRS";
+    	}
+        
+        function pageNav(cPage, searchValue){
+        	var f = document.pageForm;
+        	f.cPage.value = cPage;
+        	f.search_value.value = searchValue;
+        	
+        	f.submit();
+        }
+        
+        function selType(tp){
+        	var f = document.frm3;
+        	f.d_type.value = tp;
+        	
+        	f.submit();
+        }
+    </script>
+</head>
+<body class="loaded">
+    <!-- Top 네비게이션 영역 start -->
+	
+
+
+
+	<header class="common">
+        <h1><a href="/kor/main.do" target="_self">kmb 한국자금중개(주)</a></h1>
+        <button type="button" class="menu"><i>메뉴</i></button>
+        <nav class="gnb">
+            <a href="/kor/rate/exchange_rate.do?mkt=fx" target="_self" class="on">환율/금리</a> <!--2026.08.19 호연 외환 환율 조회 기준일 변경 -->
+            <a href="/kor/trendi/money_trend.do" target="_self">시황자료</a>
+            <a href="/kor/infoservice/intro.do" target="_self">정보제공</a>
+            <a href="/kor/introduce/money_market.do" target="_self">자금시장</a>
+            <a href="/kor/introduce/bond_market.do" target="_self">채권시장</a>
+            <a href="/kor/introduce/exchange_market.do" target="_self">외환시장</a>
+            <a href="/kor/introduce/repo_market.do" target="_self">파생시장</a>
+            <a href="/kor/introduce/global_market.do" target="_self">해외지점</a>
+            <a href="/kor/customer/rate_list.do" target="_self">전자공고</a>
+            <a href="/kor/introduce/company.do" target="_self">회사소개</a>
+<!-- 20231212 박진환 메모 : 채용공고 메뉴 비활성화. 진짜 채용 게시 때는 다시 풀어야 한다.       //-->     
+                  
+<!--            //-->
+        </nav>
+        <nav class="mega">
+            <ul>
+                <li>
+                    <a href="/kor/rate/exchange_rate.do?mkt=fx" target="_self">환율/금리</a> <!--2026.08.19 호연 외환 환율 조회 기준일 변경 -->
+                    <ul>
+                        <li><a href="/kor/rate/exchange_rate.do?mkt=fx" target="_self">외환환율</a></li>
+                        <li><a href="/kor/rate/financial_rate.do" target="_self">재정환율</a></li>
+                        <li><a href="/kor/rate/call_rate.do" target="_self">콜금리</a></li>
+                        <li><a href="/kor/rate/repo_rate.do" target="_self">레포금리</a></li>
+                        <li><a href="/kor/rate/bond_rate.do" target="_self">채권금리</a></li>
+                        <li><a href="/kor/rate/swap_rate.do" target="_self">스왑금리</a></li>
+                        <li><a href="/kor/rate/deri_rate.do" target="_self">파생금리</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/kor/trendi/money_trend.do" target="_self">시황자료</a>
+                    <ul>
+                        <li><a href="/kor/trendi/money_trend.do" target="_self">자금시장 동향</a></li>
+                        <li><a href="/kor/trendi/bond_trend.do" target="_self">채권시장 동향</a></li>
+                        <li><a href="/kor/trendi/repo_trend.do" target="_self">파생시장 동향</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/kor/infoservice/intro.do" target="_self">정보제공</a>
+                    <ul>
+                        <li><a href="/kor/infoservice/intro.do" target="_self">소개</a></li>
+                        <li><a href="/kor/infoservice/exchange_info.do" target="_self">외환정보</a></li>
+                        <li><a href="/kor/infoservice/money_info.do" target="_self">자금정보</a></li>
+                        <li><a href="/kor/infoservice/bond_info.do" target="_self">채권정보</a></li>
+                        <li><a href="/kor/infoservice/repo_info.do" target="_self">파생정보</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/kor/introduce/money_market.do" target="_self">자금시장</a>
+                    <ul>
+                        <li><a href="/kor/introduce/money_market.do#article1" target="_self">소개</a></li>
+                        <li><a href="/kor/introduce/money_market.do#article2" target="_self">신용콜</a></li>
+                        <li><a href="/kor/introduce/money_market.do#article3" target="_self">판매조건부채권</a></li>
+                        <li><a href="/kor/introduce/money_market.do#article4" target="_self">전자단기사채</a></li>
+                        <li><a href="/kor/introduce/money_market.do#article5" target="_self">기업어음</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/kor/introduce/bond_market.do" target="_self">채권시장</a>
+                    <ul>
+                        <li><a href="/kor/introduce/bond_market.do#article1" target="_self">소개</a></li>
+                        <li><a href="/kor/introduce/bond_market.do#article2" target="_self">채권</a></li>
+                        <li><a href="/kor/introduce/bond_market.do#article3" target="_self">외화채권</a></li>
+                        <li><a href="/kor/introduce/bond_market.do#article4" target="_self">CD/전단채</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/kor/introduce/exchange_market.do" target="_self">외환시장</a>
+                    <ul>
+                        <li><a href="/kor/introduce/exchange_market.do#article1" target="_self">소개</a></li>
+                        <li><a href="/kor/introduce/exchange_market.do#article2" target="_self">현물환</a></li>
+                        <li><a href="/kor/introduce/exchange_market.do#article4" target="_self">MAR</a></li>
+                        <li><a href="/kor/introduce/exchange_market.do#article5" target="_self">외환스왑</a></li>
+                        <li><a href="/kor/introduce/exchange_market.do#article6" target="_self">차액결제선물환</a></li>
+                        <li><a href="/kor/introduce/exchange_market.do#article7" target="_self">외화자금</a></li>
+                        <li><a href="/kor/introduce/exchange_market.do#article8" target="_self">이종통화</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/kor/introduce/repo_market.do" target="_self">파생시장</a>
+                    <ul>
+                        <li><a href="/kor/introduce/repo_market.do#article1" target="_self">소개</a></li>
+                        <li><a href="/kor/introduce/repo_market.do#article2" target="_self">이자율스왑</a></li>
+                        <li><a href="/kor/introduce/repo_market.do#article3" target="_self">통화스왑</a></li>
+                        <li><a href="/kor/introduce/repo_market.do#article4" target="_self">이자율선도거래</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/kor/introduce/global_market.do" target="_self">해외지점</a>
+                    <ul>
+                        <li><a href="/kor/introduce/global_market.do#article1" target="_self">홍콩지점</a></li>
+                        <li><a href="/kor/introduce/global_market.do#article3" target="_self">런던지점</a></li>
+                        <li><a href="/kor/introduce/global_market.do#article2" target="_self">북경사무소</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/kor/customer/notice_list.do" target="_self">공지사항</a>
+                    <ul>
+                        <li><a href="/kor/customer/notice_list.do" target="_self">공지사항</a></li>
+                        <li><a href="/kor/customer/rate_list.do" target="_self">전자공고</a></li>
+                    </ul>
+                </li>                
+                <li>
+                    <a href="/kor/introduce/company.do" target="_self">회사소개</a>
+                    <ul>
+                        <li><a href="/kor/introduce/company.do#article1" target="_self">CEO인사말</a></li>
+                        <li><a href="/kor/introduce/company.do#article2" target="_self">회사개요</a></li>
+                        <li><a href="/kor/introduce/company.do#article3" target="_self">비전</a></li>
+                        <li><a href="/kor/introduce/company.do#article4" target="_self">연혁</a></li>
+                        <li><a href="/kor/introduce/company.do#article5" target="_self">조직현황</a></li>
+                        <li><a href="/kor/introduce/company.do#article6" target="_self">주주구성</a></li>
+                        <li><a href="/kor/introduce/company.do#article7" target="_self">재무정보</a></li>
+                        <li><a href="/kor/customer/society_list.do" target="_self">사회공헌</a></li>
+                        <li><a href="/kor/introduce/company.do#article8" target="_self">찾아오시는 길</a></li>
+                    </ul>
+                </li>
+                
+                <li class="mobile">
+                    <a href="/kor/customer/notice_list.do" target="_self">고객센터</a>
+                    <ul>
+                        <li><a href="/kor/customer/notice_list.do" target="_self">공지사항</a></li>
+                        <li><a href="/kor/customer/rate_list.do" target="_self">전자공고</a></li> <!-- 20231213 박진환 -->
+                    </ul>
+                </li>
+                <li class="mobile">
+                    <a href="/kor/customer/copyright_policy.do" target="_self">가이드</a>
+                    <ul>
+                        <li><a href="/kor/customer/copyright_policy.do" target="_self">저작권보호정책</a></li>
+                        <li><a href="/kor/customer/individual_info.do" target="_self">개인정보처리방침</a></li>
+                        <li><a href="/kor/customer/email_refuse.do" target="_self">이메일무단수집거부</a></li>
+                        <li><a href="/kor/customer/credit_info.do" target="_self">신용정보활용체제</a></li>
+                        <li><a href="/kor/customer/relative_site.do" target="_self">관련사이트</a></li>
+                        <li><a href="/kor/customer/sitemap.do" target="_self">사이트맵</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <nav class="language">
+            <a href="/kor/main.do" class="on">한글</a>
+            <a href="/eng/main.do">ENGLISH</a>
+            <a href="/cn/main.do">中文</a>
+        </nav>
+    </header>
+	<!-- Top 네비게이션 영역 end -->
+    <!-- Title 영역 start -->
+	
+
+
+
+
+	
+	<!-- 환율/금리 -->
+		
+		
+		
+		
+		
+		
+		
+		<main class="rate swap">
+		
+        <section class="visual">
+            <h2>환율/금리</h2>
+            <p>
+                <span class="rw">종합금융중개회사의 역사와 자부심을 바탕으로</span>
+                <span class="rw">탄탄한 정보와 안정된 서비스를 통해 고객과 함께 미래로 나아갑니다.</span>
+            </p>
+        </section>
+        <nav class="lnb">
+            <a href="/kor/rate/exchange_rate.do?mkt=fx" target="_self">외환환율</a> <!--2026.08.19 호연 외환 환율 조회 기준일 변경 -->
+            <a href="/kor/rate/financial_rate.do" target="_self">재정환율</a>
+            <a href="/kor/rate/call_rate.do" target="_self">콜금리</a>
+            <a href="/kor/rate/repo_rate.do" target="_self">레포금리</a>
+            <a href="/kor/rate/bond_rate.do" target="_self">채권금리</a>
+            <a href="/kor/rate/swap_rate.do" target="_self">스왑금리</a>
+            <a href="/kor/rate/deri_rate.do" target="_self" class="on">파생금리</a>
+        </nav>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	<!-- Title 영역 end -->
+        <article class="byDate">
+            <h3>일자별 금리조회</h3>
+            <form name="frm3" method="post" action="deri_rate.do">
+            <input type="hidden" name="d_type">
+            <nav class="chartTab">
+                <button type="button" class="on" onclick="selType('IRS');">IRS</button>
+                <button type="button" onclick="selType('CRS');">CRS</button>
+            </nav>
+            </form>
+            <section class="filter">
+            <form method="post" name="frm1" action="deri_rate.do">
+            <input type="hidden" name="d_type" value="IRS">
+                <table>
+                    <colgroup>
+                        <col class="th">
+                        <col>
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <th scope="row"><label for="date">날짜선택</label></th>
+                            <td>
+                                <input type="text" id="d_date_sh" name="d_date_sh" value="2026-11-13" class="_datepicker hasDatepicker" readonly="">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="submit" class="search">검색</button>
+            </form>
+            </section>
+            <header class="table">
+                <dl class="standard right">
+                    <dt>단위</dt>
+                    <dd>%</dd>
+                </dl>
+            </header>
+            <div class="hScroll">
+                <table class="list">
+                    <colgroup>
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th scope="col">구분</th>
+                            <th scope="col">1Y</th>
+                            <th scope="col">2Y</th>
+                            <th scope="col">3Y</th>
+                            <th scope="col">4Y</th>
+                            <th scope="col">5Y</th>
+                            <th scope="col">7Y</th>
+							<th scope="col">10Y</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    
+                      	
+                        
+                       	<tr>
+                            <td>BID</td>
+                            <td>3.5875</td>
+                            <td>3.695</td>
+                            <td>3.725</td>
+                            <td>3.75</td>
+                            <td>3.7675</td>
+                            <td>3.795</td>
+                            <td>3.82</td>
+                        </tr>
+                        <tr>
+                            <td>OFFER</td>
+                            <td>3.6075</td>
+                            <td>3.715</td>
+                            <td>3.745</td>
+                            <td>3.77</td>
+                            <td>3.7875</td>
+                            <td>3.815</td>
+                            <td>3.84</td>
+                        </tr>
+                       	
+                    
+                    </tbody>
+                </table>
+            </div>
+        </article>
+        <article class="byTerm" id="article1">
+            <h3>기간별 금리조회</h3>
+            <section class="filter">
+            <form method="post" action="deri_rate.do#article1" id="frm" name="frm">
+            <input type="hidden" name="d_type" value="IRS">
+                <table>
+                    <colgroup>
+                        <col class="th">
+                        <col>
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <th scope="row">기간선택</th>
+                            <td>
+                                <ul class="box term">
+                                    <li>
+                                        <label>
+                                            <input type="radio" name="term" value="1m" onclick="setSearchDate('1')">
+                                            <span>1개월</span>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input type="radio" name="term" value="1m" onclick="setSearchDate('3')">
+                                            <span>3개월</span>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input type="radio" name="term" value="1m" onclick="setSearchDate('6')">
+                                            <span>6개월</span>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input type="radio" name="term" value="1m" onclick="setSearchDate('12')">
+                                            <span>12개월</span>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input type="radio" name="term" value="1m" onclick="setSearchDate('24')">
+                                            <span>24개월</span>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input type="radio" name="term" value="1m" onclick="setSearchDate('36')">
+                                            <span>36개월</span>
+                                        </label>
+                                    </li>
+                                </ul>
+                                <div class="_term">
+                                    <label>
+                                        시작일
+                                        <input type="text" name="s_date" id="s_date" value="2026-10-13" class="_datepicker hasDatepicker" readonly="">
+                                    </label>
+                                    <span class="hyphen">-</span>
+                                    <label>
+                                        종료일
+                                        <input type="text" name="e_date" id="e_date" value="2026-11-13" class="_datepicker hasDatepicker" readonly="">
+                                    </label>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="submit" class="search">검색</button>
+            </form>
+            </section>
+            <section class="graph" id="graph1">
+            	<header>
+                    <dl class="unit left">
+                        <dt>단위</dt>
+                        <dd>%</dd>
+                    </dl>
+                    <dl class="unit right">
+                        <dt>단위</dt>
+                        <dd>%</dd>
+                    </dl>
+                </header>
+            <div class="tui-chart tui-line-chart" style="width: 1100px; height: 500px;"><svg height="500" version="1.1" width="1100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="overflow: hidden; position: relative;"><rect x="0" y="0" width="1100" height="500" rx="0" ry="0" fill="#ffffff" stroke="#000" stroke-width="0" fill-opacity="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 1;"></rect><path fill="none" stroke="#000000" d="M45,371.7142857142857H1039" stroke-width="1" stroke-opacity="0.05" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 0.05;"></path><path fill="none" stroke="#000000" d="M45,311.42857142857144H1039" stroke-width="1" stroke-opacity="0.05" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 0.05;"></path><path fill="none" stroke="#000000" d="M45,251.14285714285714H1039" stroke-width="1" stroke-opacity="0.05" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 0.05;"></path><path fill="none" stroke="#000000" d="M45,190.85714285714286H1039" stroke-width="1" stroke-opacity="0.05" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 0.05;"></path><path fill="none" stroke="#000000" d="M45,130.57142857142856H1039" stroke-width="1" stroke-opacity="0.05" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 0.05;"></path><path fill="none" stroke="#000000" d="M45,70.28571428571428H1039" stroke-width="1" stroke-opacity="0.05" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 0.05;"></path><path fill="none" stroke="#000000" d="M45,10H1039" stroke-width="1" stroke-opacity="0.05" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 0.05;"></path><path fill="none" stroke="#000000" d="M1038,10V432" stroke-width="1" stroke-opacity="0.05" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 0.05;"></path><path fill="none" stroke="#000000" d="M995.7826086956522,10V432" stroke-width="1" stroke-opacity="0.05" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 0.05;"></path><path fill="none" stroke="#000000" d="M952.5652173913043,10V432" stroke-width="1" stroke-opacity="0.05" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 0.05;"></path><path fill="none" stroke="#000000" d="M909.3478260869565,10V432" stroke-width="1" stroke-opacity="0.05" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 0.05;"></path><path fill="none" stroke="#000000" d="M866.1304347826087,10V432" stroke-width="1" stroke-opacity="0.05" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 0.05;"></path><path fill="none" stroke="#000000" d="M822.9130434782609,10V432" stroke-width="1" stroke-opacity="0.05" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 0.05;"></path><path fill="none" stroke="#000000" d="M779.695652173913,10V432" stroke-width="1" stroke-opacity="0.05" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 0.05;"></path><path fill="none" stroke="#000000" d="M736.4782608695652,10V432" stroke-width="1" stroke-opacity="0.05" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 0.05;"></path><path fill="none" stroke="#000000" d="M693.2608695652174,10V432" stroke-width="1" stroke-opacity="0.05" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 0.05;"></path><path fill="none" stroke="#000000" d="M650.0434782608696,10V432" stroke-width="1" stroke-opacity="0.05" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 0.05;"></path><path fill="none" stroke="#000000" d="M606.8260869565217,10V432" stroke-width="1" stroke-opacity="0.05" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 0.05;"></path><path fill="none" stroke="#000000" d="M563.6086956521739,10V432" stroke-width="1" stroke-opacity="0.05" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 0.05;"></path><path fill="none" stroke="#000000" d="M520.3913043478261,10V432" stroke-width="1" stroke-opacity="0.05" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 0.05;"></path><path fill="none" stroke="#000000" d="M477.17391304347825,10V432" stroke-width="1" stroke-opacity="0.05" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 0.05;"></path><path fill="none" stroke="#000000" d="M433.95652173913044,10V432" stroke-width="1" stroke-opacity="0.05" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 0.05;"></path><path fill="none" stroke="#000000" d="M390.7391304347826,10V432" stroke-width="1" stroke-opacity="0.05" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 0.05;"></path><path fill="none" stroke="#000000" d="M347.5217391304348,10V432" stroke-width="1" stroke-opacity="0.05" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 0.05;"></path><path fill="none" stroke="#000000" d="M304.30434782608694,10V432" stroke-width="1" stroke-opacity="0.05" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 0.05;"></path><path fill="none" stroke="#000000" d="M261.0869565217391,10V432" stroke-width="1" stroke-opacity="0.05" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 0.05;"></path><path fill="none" stroke="#000000" d="M217.8695652173913,10V432" stroke-width="1" stroke-opacity="0.05" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 0.05;"></path><path fill="none" stroke="#000000" d="M174.65217391304347,10V432" stroke-width="1" stroke-opacity="0.05" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 0.05;"></path><path fill="none" stroke="#000000" d="M131.43478260869566,10V432" stroke-width="1" stroke-opacity="0.05" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 0.05;"></path><path fill="none" stroke="#000000" d="M88.21739130434783,10V432" stroke-width="1" stroke-opacity="0.05" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 0.05;"></path><desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Created with Raphaël @@VERSION</desc><defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><filter id="glow"><feFlood result="flood" flood-color="#ffffff" flood-opacity="0.5"></feFlood><feComposite in="flood" result="mask" in2="SourceGraphic" operator="in"></feComposite><feMorphology in="mask" result="dilated" operator="dilate" radius="2"></feMorphology><feGaussianBlur in="dilated" result="blurred" stdDeviation="1"></feGaussianBlur><feMerge><feMergeNode in="blurred"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter><filter id="shadow" x="-15%" y="-15%" width="180%" height="180%"><feOffset result="offOut" in="SourceAlpha" dx="2" dy="2"></feOffset><feGaussianBlur result="blurOut" in="offOut" stdDeviation="2"></feGaussianBlur><feBlend in="SourceGraphic" in2="blurOut" mode="normal"></feBlend></filter><filter id="shadow" x="-50%" y="-50%" width="180%" height="180%"><feOffset result="offOut" in="SourceAlpha" dx="0" dy="0"></feOffset><feGaussianBlur result="blurOut" in="offOut" stdDeviation="2"></feGaussianBlur><feBlend in="SourceGraphic" in2="blurOut" mode="normal"></feBlend></filter><clipPath id="clipRectForAnimation0"><rect x="35" y="0" width="1014" height="441" rx="0" ry="0" fill="none" stroke="#000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></rect></clipPath></defs><path fill="none" stroke="#00a9ff" d="M45,334.77142857142843L88.21739130434783,313.72142857142836L131.43478260869566,307.70714285714274L174.6521739130435,316.7285714285714L217.8695652173913,306.20357142857137L261.0869565217391,328.75714285714287L304.304347826087,328.75714285714287L347.5217391304348,310.71428571428555L390.7391304347826,318.23214285714283L433.95652173913044,337.77857142857124L477.17391304347825,351.3107142857141L520.3913043478261,328.75714285714287L563.608695652174,328.75714285714287L606.8260869565217,334.77142857142843L650.0434782608696,319.7357142857142L693.2608695652174,328.75714285714287L736.4782608695652,340.78571428571433L779.6956521739131,352.81428571428575L822.9130434782609,388.8999999999998L866.1304347826087,373.8642857142856L909.3478260869565,348.3035714285713L952.5652173913044,313.72142857142836L995.7826086956522,321.23928571428564L1039,312.21785714285693" stroke-width="6" stroke-linecap="butt" class="auto-shape-rendering" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-linecap: butt;" clip-path="url(#clipRectForAnimation0)"></path><path fill="none" stroke="#ffb840" d="M45,200.95357142857117L88.21739130434783,187.42142857142832L131.43478260869566,194.93928571428557L174.6521739130435,214.48571428571427L217.8695652173913,190.4285714285714L261.0869565217391,214.48571428571427L304.304347826087,223.50714285714267L347.5217391304348,203.96071428571426L390.7391304347826,214.48571428571427L433.95652173913044,241.54999999999995L477.17391304347825,265.60714285714283L520.3913043478261,231.02499999999992L563.608695652174,244.55714285714274L606.8260869565217,259.592857142857L650.0434782608696,247.56428571428555L693.2608695652174,255.0821428571428L736.4782608695652,274.62857142857126L779.6956521739131,291.1678571428571L822.9130434782609,336.27499999999986L866.1304347826087,333.26785714285705L909.3478260869565,322.742857142857L952.5652173913044,259.592857142857L995.7826086956522,261.0964285714284L1039,247.56428571428555" stroke-width="6" stroke-linecap="butt" class="auto-shape-rendering" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-linecap: butt;" clip-path="url(#clipRectForAnimation0)"></path><path fill="none" stroke="#ff5a46" d="M45,142.31428571428563L88.21739130434783,130.28571428571416L131.43478260869566,148.3285714285712L174.6521739130435,172.38571428571407L217.8695652173913,148.3285714285712L261.0869565217391,172.38571428571407L304.304347826087,182.91071428571414L347.5217391304348,166.3714285714285L390.7391304347826,181.40714285714276L433.95652173913044,202.45714285714283L477.17391304347825,234.0321428571427L520.3913043478261,196.442857142857L563.608695652174,211.47857142857123L606.8260869565217,234.0321428571427L650.0434782608696,212.9821428571426L693.2608695652174,226.51428571428545L736.4782608695652,252.07500000000002L779.6956521739131,282.1464285714285L822.9130434782609,321.23928571428564L866.1304347826087,315.225L909.3478260869565,309.2107142857142L952.5652173913044,249.06785714285695L995.7826086956522,246.06071428571414L1039,229.52142857142852" stroke-width="6" stroke-linecap="butt" class="auto-shape-rendering" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-linecap: butt;" clip-path="url(#clipRectForAnimation0)"></path><path fill="none" stroke="#00bd9f" d="M45,109.2357142857141L88.21739130434783,95.7035714285712L131.43478260869566,122.76785714285694L174.6521739130435,148.3285714285712L217.8695652173913,124.27142857142832L261.0869565217391,146.82499999999982L304.304347826087,158.85357142857123L347.5217391304348,146.82499999999982L390.7391304347826,160.35714285714266L433.95652173913044,182.91071428571414L477.17391304347825,212.9821428571426L520.3913043478261,173.8892857142855L563.608695652174,187.42142857142832L606.8260869565217,212.9821428571426L650.0434782608696,188.92499999999973L693.2608695652174,203.96071428571426L736.4782608695652,232.52857142857133L779.6956521739131,270.117857142857L822.9130434782609,306.20357142857137L866.1304347826087,303.19642857142856L909.3478260869565,300.1892857142855L952.5652173913044,238.5428571428569L995.7826086956522,235.5357142857141L1039,214.48571428571427" stroke-width="6" stroke-linecap="butt" class="auto-shape-rendering" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-linecap: butt;" clip-path="url(#clipRectForAnimation0)"></path><path fill="none" stroke="#785fff" d="M45,88.18571428571397L88.21739130434783,73.14999999999975L131.43478260869566,104.72499999999991L174.6521739130435,136.29999999999973L217.8695652173913,110.73928571428547L261.0869565217391,128.7821428571428L304.304347826087,145.32142857142844L347.5217391304348,133.29285714285697L390.7391304347826,149.83214285714257L433.95652173913044,169.37857142857126L477.17391304347825,200.95357142857117L520.3913043478261,158.85357142857123L563.608695652174,172.38571428571407L606.8260869565217,199.4499999999998L650.0434782608696,175.39285714285688L693.2608695652174,191.93214285714276L736.4782608695652,226.51428571428545L779.6956521739131,265.60714285714283L822.9130434782609,295.67857142857133L866.1304347826087,294.17499999999995L909.3478260869565,292.6714285714285L952.5652173913044,231.02499999999992L995.7826086956522,228.0178571428571L1039,203.96071428571426" stroke-width="6" stroke-linecap="butt" class="auto-shape-rendering" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-linecap: butt;" clip-path="url(#clipRectForAnimation0)"></path><path fill="none" stroke="#f28b8c" d="M45,64.12857142857138L88.21739130434783,46.08571428571406L131.43478260869566,83.67499999999978L174.6521739130435,115.24999999999994L217.8695652173913,94.19999999999982L261.0869565217391,113.74642857142823L304.304347826087,128.7821428571428L347.5217391304348,121.2642857142855L390.7391304347826,142.31428571428563L433.95652173913044,161.86071428571404L477.17391304347825,193.4357142857142L520.3913043478261,143.817857142857L563.608695652174,158.85357142857123L606.8260869565217,184.4142857142855L650.0434782608696,161.86071428571404L693.2608695652174,182.91071428571414L736.4782608695652,217.49285714285705L779.6956521739131,256.5857142857142L822.9130434782609,282.1464285714285L866.1304347826087,285.15357142857124L909.3478260869565,283.64999999999986L952.5652173913044,222.00357142857126L995.7826086956522,218.99642857142848L1039,187.42142857142832" stroke-width="6" stroke-linecap="butt" class="auto-shape-rendering" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-linecap: butt;" clip-path="url(#clipRectForAnimation0)"></path><path fill="none" stroke="#989486" d="M45,41.57499999999959L88.21739130434783,26.539285714285654L131.43478260869566,65.63214285714247L174.6521739130435,98.710714285714L217.8695652173913,80.66785714285697L261.0869565217391,101.7178571428571L304.304347826087,115.24999999999994L347.5217391304348,112.24285714285685L390.7391304347826,136.29999999999973L433.95652173913044,158.85357142857123L477.17391304347825,187.42142857142832L520.3913043478261,131.78928571428554L563.608695652174,148.3285714285712L606.8260869565217,172.38571428571407L650.0434782608696,151.335714285714L693.2608695652174,176.89642857142854L736.4782608695652,211.47857142857123L779.6956521739131,253.5785714285714L822.9130434782609,271.6214285714284L866.1304347826087,277.6357142857143L909.3478260869565,274.62857142857126L952.5652173913044,212.9821428571426L995.7826086956522,211.47857142857123L1039,172.38571428571407" stroke-width="6" stroke-linecap="butt" class="auto-shape-rendering" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-linecap: butt;" clip-path="url(#clipRectForAnimation0)"></path><path fill="none" stroke="#ffffff" d="M9.5,441" stroke-width="1" stroke-linecap="butt" stroke-opacity="0" class="auto-shape-rendering" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-linecap: butt; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></path><circle cx="45" cy="334.77142857142843" r="6" fill="#00a9ff" stroke="#00a9ff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="88.21739130434783" cy="313.72142857142836" r="6" fill="#00a9ff" stroke="#00a9ff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="131.43478260869566" cy="307.70714285714274" r="6" fill="#00a9ff" stroke="#00a9ff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="174.6521739130435" cy="316.7285714285714" r="6" fill="#00a9ff" stroke="#00a9ff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="217.8695652173913" cy="306.20357142857137" r="6" fill="#00a9ff" stroke="#00a9ff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="261.0869565217391" cy="328.75714285714287" r="6" fill="#00a9ff" stroke="#00a9ff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="304.304347826087" cy="328.75714285714287" r="6" fill="#00a9ff" stroke="#00a9ff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="347.5217391304348" cy="310.71428571428555" r="6" fill="#00a9ff" stroke="#00a9ff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="390.7391304347826" cy="318.23214285714283" r="6" fill="#00a9ff" stroke="#00a9ff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="433.95652173913044" cy="337.77857142857124" r="6" fill="#00a9ff" stroke="#00a9ff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="477.17391304347825" cy="351.3107142857141" r="6" fill="#00a9ff" stroke="#00a9ff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="520.3913043478261" cy="328.75714285714287" r="6" fill="#00a9ff" stroke="#00a9ff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="563.608695652174" cy="328.75714285714287" r="6" fill="#00a9ff" stroke="#00a9ff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="606.8260869565217" cy="334.77142857142843" r="6" fill="#00a9ff" stroke="#00a9ff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="650.0434782608696" cy="319.7357142857142" r="6" fill="#00a9ff" stroke="#00a9ff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="693.2608695652174" cy="328.75714285714287" r="6" fill="#00a9ff" stroke="#00a9ff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="736.4782608695652" cy="340.78571428571433" r="6" fill="#00a9ff" stroke="#00a9ff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="779.6956521739131" cy="352.81428571428575" r="6" fill="#00a9ff" stroke="#00a9ff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="822.9130434782609" cy="388.8999999999998" r="6" fill="#00a9ff" stroke="#00a9ff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="866.1304347826087" cy="373.8642857142856" r="6" fill="#00a9ff" stroke="#00a9ff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="909.3478260869565" cy="348.3035714285713" r="6" fill="#00a9ff" stroke="#00a9ff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="952.5652173913044" cy="313.72142857142836" r="6" fill="#00a9ff" stroke="#00a9ff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="995.7826086956522" cy="321.23928571428564" r="6" fill="#00a9ff" stroke="#00a9ff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="1039" cy="312.21785714285693" r="6" fill="#00a9ff" stroke="#00a9ff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="45" cy="200.95357142857117" r="6" fill="#ffb840" stroke="#ffb840" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="88.21739130434783" cy="187.42142857142832" r="6" fill="#ffb840" stroke="#ffb840" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="131.43478260869566" cy="194.93928571428557" r="6" fill="#ffb840" stroke="#ffb840" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="174.6521739130435" cy="214.48571428571427" r="6" fill="#ffb840" stroke="#ffb840" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="217.8695652173913" cy="190.4285714285714" r="6" fill="#ffb840" stroke="#ffb840" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="261.0869565217391" cy="214.48571428571427" r="6" fill="#ffb840" stroke="#ffb840" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="304.304347826087" cy="223.50714285714267" r="6" fill="#ffb840" stroke="#ffb840" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="347.5217391304348" cy="203.96071428571426" r="6" fill="#ffb840" stroke="#ffb840" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="390.7391304347826" cy="214.48571428571427" r="6" fill="#ffb840" stroke="#ffb840" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="433.95652173913044" cy="241.54999999999995" r="6" fill="#ffb840" stroke="#ffb840" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="477.17391304347825" cy="265.60714285714283" r="6" fill="#ffb840" stroke="#ffb840" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="520.3913043478261" cy="231.02499999999992" r="6" fill="#ffb840" stroke="#ffb840" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="563.608695652174" cy="244.55714285714274" r="6" fill="#ffb840" stroke="#ffb840" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="606.8260869565217" cy="259.592857142857" r="6" fill="#ffb840" stroke="#ffb840" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="650.0434782608696" cy="247.56428571428555" r="6" fill="#ffb840" stroke="#ffb840" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="693.2608695652174" cy="255.0821428571428" r="6" fill="#ffb840" stroke="#ffb840" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="736.4782608695652" cy="274.62857142857126" r="6" fill="#ffb840" stroke="#ffb840" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="779.6956521739131" cy="291.1678571428571" r="6" fill="#ffb840" stroke="#ffb840" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="822.9130434782609" cy="336.27499999999986" r="6" fill="#ffb840" stroke="#ffb840" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="866.1304347826087" cy="333.26785714285705" r="6" fill="#ffb840" stroke="#ffb840" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="909.3478260869565" cy="322.742857142857" r="6" fill="#ffb840" stroke="#ffb840" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="952.5652173913044" cy="259.592857142857" r="6" fill="#ffb840" stroke="#ffb840" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="995.7826086956522" cy="261.0964285714284" r="6" fill="#ffb840" stroke="#ffb840" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="1039" cy="247.56428571428555" r="6" fill="#ffb840" stroke="#ffb840" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="45" cy="142.31428571428563" r="6" fill="#ff5a46" stroke="#ff5a46" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="88.21739130434783" cy="130.28571428571416" r="6" fill="#ff5a46" stroke="#ff5a46" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="131.43478260869566" cy="148.3285714285712" r="6" fill="#ff5a46" stroke="#ff5a46" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="174.6521739130435" cy="172.38571428571407" r="6" fill="#ff5a46" stroke="#ff5a46" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="217.8695652173913" cy="148.3285714285712" r="6" fill="#ff5a46" stroke="#ff5a46" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="261.0869565217391" cy="172.38571428571407" r="6" fill="#ff5a46" stroke="#ff5a46" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="304.304347826087" cy="182.91071428571414" r="6" fill="#ff5a46" stroke="#ff5a46" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="347.5217391304348" cy="166.3714285714285" r="6" fill="#ff5a46" stroke="#ff5a46" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="390.7391304347826" cy="181.40714285714276" r="6" fill="#ff5a46" stroke="#ff5a46" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="433.95652173913044" cy="202.45714285714283" r="6" fill="#ff5a46" stroke="#ff5a46" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="477.17391304347825" cy="234.0321428571427" r="6" fill="#ff5a46" stroke="#ff5a46" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="520.3913043478261" cy="196.442857142857" r="6" fill="#ff5a46" stroke="#ff5a46" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="563.608695652174" cy="211.47857142857123" r="6" fill="#ff5a46" stroke="#ff5a46" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="606.8260869565217" cy="234.0321428571427" r="6" fill="#ff5a46" stroke="#ff5a46" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="650.0434782608696" cy="212.9821428571426" r="6" fill="#ff5a46" stroke="#ff5a46" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="693.2608695652174" cy="226.51428571428545" r="6" fill="#ff5a46" stroke="#ff5a46" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="736.4782608695652" cy="252.07500000000002" r="6" fill="#ff5a46" stroke="#ff5a46" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="779.6956521739131" cy="282.1464285714285" r="6" fill="#ff5a46" stroke="#ff5a46" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="822.9130434782609" cy="321.23928571428564" r="6" fill="#ff5a46" stroke="#ff5a46" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="866.1304347826087" cy="315.225" r="6" fill="#ff5a46" stroke="#ff5a46" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="909.3478260869565" cy="309.2107142857142" r="6" fill="#ff5a46" stroke="#ff5a46" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="952.5652173913044" cy="249.06785714285695" r="6" fill="#ff5a46" stroke="#ff5a46" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="995.7826086956522" cy="246.06071428571414" r="6" fill="#ff5a46" stroke="#ff5a46" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="1039" cy="229.52142857142852" r="6" fill="#ff5a46" stroke="#ff5a46" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="45" cy="109.2357142857141" r="6" fill="#00bd9f" stroke="#00bd9f" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="88.21739130434783" cy="95.7035714285712" r="6" fill="#00bd9f" stroke="#00bd9f" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="131.43478260869566" cy="122.76785714285694" r="6" fill="#00bd9f" stroke="#00bd9f" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="174.6521739130435" cy="148.3285714285712" r="6" fill="#00bd9f" stroke="#00bd9f" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="217.8695652173913" cy="124.27142857142832" r="6" fill="#00bd9f" stroke="#00bd9f" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="261.0869565217391" cy="146.82499999999982" r="6" fill="#00bd9f" stroke="#00bd9f" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="304.304347826087" cy="158.85357142857123" r="6" fill="#00bd9f" stroke="#00bd9f" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="347.5217391304348" cy="146.82499999999982" r="6" fill="#00bd9f" stroke="#00bd9f" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="390.7391304347826" cy="160.35714285714266" r="6" fill="#00bd9f" stroke="#00bd9f" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="433.95652173913044" cy="182.91071428571414" r="6" fill="#00bd9f" stroke="#00bd9f" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="477.17391304347825" cy="212.9821428571426" r="6" fill="#00bd9f" stroke="#00bd9f" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="520.3913043478261" cy="173.8892857142855" r="6" fill="#00bd9f" stroke="#00bd9f" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="563.608695652174" cy="187.42142857142832" r="6" fill="#00bd9f" stroke="#00bd9f" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="606.8260869565217" cy="212.9821428571426" r="6" fill="#00bd9f" stroke="#00bd9f" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="650.0434782608696" cy="188.92499999999973" r="6" fill="#00bd9f" stroke="#00bd9f" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="693.2608695652174" cy="203.96071428571426" r="6" fill="#00bd9f" stroke="#00bd9f" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="736.4782608695652" cy="232.52857142857133" r="6" fill="#00bd9f" stroke="#00bd9f" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="779.6956521739131" cy="270.117857142857" r="6" fill="#00bd9f" stroke="#00bd9f" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="822.9130434782609" cy="306.20357142857137" r="6" fill="#00bd9f" stroke="#00bd9f" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="866.1304347826087" cy="303.19642857142856" r="6" fill="#00bd9f" stroke="#00bd9f" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="909.3478260869565" cy="300.1892857142855" r="6" fill="#00bd9f" stroke="#00bd9f" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="952.5652173913044" cy="238.5428571428569" r="6" fill="#00bd9f" stroke="#00bd9f" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="995.7826086956522" cy="235.5357142857141" r="6" fill="#00bd9f" stroke="#00bd9f" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="1039" cy="214.48571428571427" r="6" fill="#00bd9f" stroke="#00bd9f" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="45" cy="88.18571428571397" r="6" fill="#785fff" stroke="#785fff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="88.21739130434783" cy="73.14999999999975" r="6" fill="#785fff" stroke="#785fff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="131.43478260869566" cy="104.72499999999991" r="6" fill="#785fff" stroke="#785fff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="174.6521739130435" cy="136.29999999999973" r="6" fill="#785fff" stroke="#785fff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="217.8695652173913" cy="110.73928571428547" r="6" fill="#785fff" stroke="#785fff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="261.0869565217391" cy="128.7821428571428" r="6" fill="#785fff" stroke="#785fff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="304.304347826087" cy="145.32142857142844" r="6" fill="#785fff" stroke="#785fff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="347.5217391304348" cy="133.29285714285697" r="6" fill="#785fff" stroke="#785fff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="390.7391304347826" cy="149.83214285714257" r="6" fill="#785fff" stroke="#785fff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="433.95652173913044" cy="169.37857142857126" r="6" fill="#785fff" stroke="#785fff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="477.17391304347825" cy="200.95357142857117" r="6" fill="#785fff" stroke="#785fff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="520.3913043478261" cy="158.85357142857123" r="6" fill="#785fff" stroke="#785fff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="563.608695652174" cy="172.38571428571407" r="6" fill="#785fff" stroke="#785fff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="606.8260869565217" cy="199.4499999999998" r="6" fill="#785fff" stroke="#785fff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="650.0434782608696" cy="175.39285714285688" r="6" fill="#785fff" stroke="#785fff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="693.2608695652174" cy="191.93214285714276" r="6" fill="#785fff" stroke="#785fff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="736.4782608695652" cy="226.51428571428545" r="6" fill="#785fff" stroke="#785fff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="779.6956521739131" cy="265.60714285714283" r="6" fill="#785fff" stroke="#785fff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="822.9130434782609" cy="295.67857142857133" r="6" fill="#785fff" stroke="#785fff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="866.1304347826087" cy="294.17499999999995" r="6" fill="#785fff" stroke="#785fff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="909.3478260869565" cy="292.6714285714285" r="6" fill="#785fff" stroke="#785fff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="952.5652173913044" cy="231.02499999999992" r="6" fill="#785fff" stroke="#785fff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="995.7826086956522" cy="228.0178571428571" r="6" fill="#785fff" stroke="#785fff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="1039" cy="203.96071428571426" r="6" fill="#785fff" stroke="#785fff" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="45" cy="64.12857142857138" r="6" fill="#f28b8c" stroke="#f28b8c" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="88.21739130434783" cy="46.08571428571406" r="6" fill="#f28b8c" stroke="#f28b8c" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="131.43478260869566" cy="83.67499999999978" r="6" fill="#f28b8c" stroke="#f28b8c" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="174.6521739130435" cy="115.24999999999994" r="6" fill="#f28b8c" stroke="#f28b8c" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="217.8695652173913" cy="94.19999999999982" r="6" fill="#f28b8c" stroke="#f28b8c" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="261.0869565217391" cy="113.74642857142823" r="6" fill="#f28b8c" stroke="#f28b8c" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="304.304347826087" cy="128.7821428571428" r="6" fill="#f28b8c" stroke="#f28b8c" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="347.5217391304348" cy="121.2642857142855" r="6" fill="#f28b8c" stroke="#f28b8c" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="390.7391304347826" cy="142.31428571428563" r="6" fill="#f28b8c" stroke="#f28b8c" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="433.95652173913044" cy="161.86071428571404" r="6" fill="#f28b8c" stroke="#f28b8c" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="477.17391304347825" cy="193.4357142857142" r="6" fill="#f28b8c" stroke="#f28b8c" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="520.3913043478261" cy="143.817857142857" r="6" fill="#f28b8c" stroke="#f28b8c" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="563.608695652174" cy="158.85357142857123" r="6" fill="#f28b8c" stroke="#f28b8c" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="606.8260869565217" cy="184.4142857142855" r="6" fill="#f28b8c" stroke="#f28b8c" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="650.0434782608696" cy="161.86071428571404" r="6" fill="#f28b8c" stroke="#f28b8c" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="693.2608695652174" cy="182.91071428571414" r="6" fill="#f28b8c" stroke="#f28b8c" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="736.4782608695652" cy="217.49285714285705" r="6" fill="#f28b8c" stroke="#f28b8c" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="779.6956521739131" cy="256.5857142857142" r="6" fill="#f28b8c" stroke="#f28b8c" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="822.9130434782609" cy="282.1464285714285" r="6" fill="#f28b8c" stroke="#f28b8c" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="866.1304347826087" cy="285.15357142857124" r="6" fill="#f28b8c" stroke="#f28b8c" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="909.3478260869565" cy="283.64999999999986" r="6" fill="#f28b8c" stroke="#f28b8c" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="952.5652173913044" cy="222.00357142857126" r="6" fill="#f28b8c" stroke="#f28b8c" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="995.7826086956522" cy="218.99642857142848" r="6" fill="#f28b8c" stroke="#f28b8c" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="1039" cy="187.42142857142832" r="6" fill="#f28b8c" stroke="#f28b8c" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="45" cy="41.57499999999959" r="6" fill="#989486" stroke="#989486" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="88.21739130434783" cy="26.539285714285654" r="6" fill="#989486" stroke="#989486" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="131.43478260869566" cy="65.63214285714247" r="6" fill="#989486" stroke="#989486" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="174.6521739130435" cy="98.710714285714" r="6" fill="#989486" stroke="#989486" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="217.8695652173913" cy="80.66785714285697" r="6" fill="#989486" stroke="#989486" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="261.0869565217391" cy="101.7178571428571" r="6" fill="#989486" stroke="#989486" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="304.304347826087" cy="115.24999999999994" r="6" fill="#989486" stroke="#989486" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="347.5217391304348" cy="112.24285714285685" r="6" fill="#989486" stroke="#989486" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="390.7391304347826" cy="136.29999999999973" r="6" fill="#989486" stroke="#989486" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="433.95652173913044" cy="158.85357142857123" r="6" fill="#989486" stroke="#989486" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="477.17391304347825" cy="187.42142857142832" r="6" fill="#989486" stroke="#989486" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="520.3913043478261" cy="131.78928571428554" r="6" fill="#989486" stroke="#989486" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="563.608695652174" cy="148.3285714285712" r="6" fill="#989486" stroke="#989486" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="606.8260869565217" cy="172.38571428571407" r="6" fill="#989486" stroke="#989486" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="650.0434782608696" cy="151.335714285714" r="6" fill="#989486" stroke="#989486" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="693.2608695652174" cy="176.89642857142854" r="6" fill="#989486" stroke="#989486" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="736.4782608695652" cy="211.47857142857123" r="6" fill="#989486" stroke="#989486" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="779.6956521739131" cy="253.5785714285714" r="6" fill="#989486" stroke="#989486" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="822.9130434782609" cy="271.6214285714284" r="6" fill="#989486" stroke="#989486" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="866.1304347826087" cy="277.6357142857143" r="6" fill="#989486" stroke="#989486" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="909.3478260869565" cy="274.62857142857126" r="6" fill="#989486" stroke="#989486" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="952.5652173913044" cy="212.9821428571426" r="6" fill="#989486" stroke="#989486" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="995.7826086956522" cy="211.47857142857123" r="6" fill="#989486" stroke="#989486" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><circle cx="1039" cy="172.38571428571407" r="6" fill="#989486" stroke="#989486" fill-opacity="0" stroke-opacity="0" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0; stroke-opacity: 0;" clip-path="url(#clipRectForAnimation0)"></circle><text x="45" y="448" text-anchor="middle" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">26/10/13</tspan></text><text x="88" y="448" text-anchor="middle" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></tspan></text><text x="131" y="448" text-anchor="middle" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">26/10/15</tspan></text><text x="175" y="448" text-anchor="middle" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></tspan></text><text x="218" y="448" text-anchor="middle" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">26/10/19</tspan></text><text x="261" y="448" text-anchor="middle" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></tspan></text><text x="304" y="448" text-anchor="middle" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">26/10/21</tspan></text><text x="348" y="448" text-anchor="middle" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></tspan></text><text x="391" y="448" text-anchor="middle" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">26/10/23</tspan></text><text x="434" y="448" text-anchor="middle" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></tspan></text><text x="477" y="448" text-anchor="middle" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">26/10/27</tspan></text><text x="520" y="448" text-anchor="middle" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></tspan></text><text x="564" y="448" text-anchor="middle" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">26/10/29</tspan></text><text x="607" y="448" text-anchor="middle" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></tspan></text><text x="650" y="448" text-anchor="middle" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">26/11/02</tspan></text><text x="693" y="448" text-anchor="middle" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></tspan></text><text x="736" y="448" text-anchor="middle" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">26/11/04</tspan></text><text x="780" y="448" text-anchor="middle" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></tspan></text><text x="823" y="448" text-anchor="middle" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">26/11/06</tspan></text><text x="866" y="448" text-anchor="middle" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></tspan></text><text x="909" y="448" text-anchor="middle" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">26/11/10</tspan></text><text x="953" y="448" text-anchor="middle" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></tspan></text><text x="996" y="448" text-anchor="middle" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">26/11/12</tspan></text><text x="1038" y="448" text-anchor="middle" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></tspan></text><path fill="none" stroke="#000000" d="M45,431H1039" stroke-width="1" opacity="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0.5;"></path><path fill="none" stroke="#000000" d="M45,431V436" opacity="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0.5;"></path><path fill="none" stroke="#000000" d="M88.21739130434783,431V436" opacity="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0.5;"></path><path fill="none" stroke="#000000" d="M131.43478260869566,431V436" opacity="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0.5;"></path><path fill="none" stroke="#000000" d="M174.65217391304347,431V436" opacity="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0.5;"></path><path fill="none" stroke="#000000" d="M217.8695652173913,431V436" opacity="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0.5;"></path><path fill="none" stroke="#000000" d="M261.0869565217391,431V436" opacity="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0.5;"></path><path fill="none" stroke="#000000" d="M304.30434782608694,431V436" opacity="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0.5;"></path><path fill="none" stroke="#000000" d="M347.5217391304348,431V436" opacity="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0.5;"></path><path fill="none" stroke="#000000" d="M390.7391304347826,431V436" opacity="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0.5;"></path><path fill="none" stroke="#000000" d="M433.95652173913044,431V436" opacity="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0.5;"></path><path fill="none" stroke="#000000" d="M477.17391304347825,431V436" opacity="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0.5;"></path><path fill="none" stroke="#000000" d="M520.3913043478261,431V436" opacity="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0.5;"></path><path fill="none" stroke="#000000" d="M563.6086956521739,431V436" opacity="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0.5;"></path><path fill="none" stroke="#000000" d="M606.8260869565217,431V436" opacity="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0.5;"></path><path fill="none" stroke="#000000" d="M650.0434782608696,431V436" opacity="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0.5;"></path><path fill="none" stroke="#000000" d="M693.2608695652174,431V436" opacity="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0.5;"></path><path fill="none" stroke="#000000" d="M736.4782608695652,431V436" opacity="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0.5;"></path><path fill="none" stroke="#000000" d="M779.695652173913,431V436" opacity="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0.5;"></path><path fill="none" stroke="#000000" d="M822.9130434782609,431V436" opacity="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0.5;"></path><path fill="none" stroke="#000000" d="M866.1304347826087,431V436" opacity="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0.5;"></path><path fill="none" stroke="#000000" d="M909.3478260869565,431V436" opacity="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0.5;"></path><path fill="none" stroke="#000000" d="M952.5652173913043,431V436" opacity="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0.5;"></path><path fill="none" stroke="#000000" d="M995.7826086956522,431V436" opacity="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0.5;"></path><path fill="none" stroke="#000000" d="M1038,431V436" opacity="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0.5;"></path><text x="1073" y="432" text-anchor="end" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">3.4</tspan></text><text x="1073" y="372" text-anchor="end" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">3.5</tspan></text><text x="1073" y="311" text-anchor="end" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">3.6</tspan></text><text x="1073" y="251" text-anchor="end" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">3.7</tspan></text><text x="1073" y="191" text-anchor="end" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">3.8</tspan></text><text x="1073" y="131" text-anchor="end" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">3.9</tspan></text><text x="1073" y="70" text-anchor="end" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">4</tspan></text><text x="1073" y="11" text-anchor="end" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">4.1</tspan></text><text x="10" y="432" text-anchor="start" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">3.4</tspan></text><text x="10" y="372" text-anchor="start" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">3.5</tspan></text><text x="10" y="311" text-anchor="start" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">3.6</tspan></text><text x="10" y="251" text-anchor="start" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">3.7</tspan></text><text x="10" y="191" text-anchor="start" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">3.8</tspan></text><text x="10" y="131" text-anchor="start" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">3.9</tspan></text><text x="10" y="70" text-anchor="start" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">4</tspan></text><text x="10" y="11" text-anchor="start" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: Arial; font-size: 15px; font-weight: normal; user-select: none; cursor: default;" dominant-baseline="central" font-weight="normal"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">4.1</tspan></text><path fill="none" stroke="#00a9ff" d="M1,9L1,3C1,1.8954305,1.8954305,1,3,1L3,1C4.1045695,1,5,1.8954305,5,3L5,7C5,8.1045695,5.8954305,9,7,9L7,9C8.1045695,9,9,8.1045695,9,7L9,1" stroke-width="2" stroke-opacity="1" transform="matrix(1,0,0,1,304,465)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 1;"></path><text x="322" y="472" text-anchor="start" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: Arial; font-size: 15px; font-weight: lighter; opacity: 1; user-select: none; cursor: pointer;" dominant-baseline="central" font-weight="lighter" opacity="1"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">1Y</tspan></text><path fill="none" stroke="#ffb840" d="M1,9L1,3C1,1.8954305,1.8954305,1,3,1L3,1C4.1045695,1,5,1.8954305,5,3L5,7C5,8.1045695,5.8954305,9,7,9L7,9C8.1045695,9,9,8.1045695,9,7L9,1" stroke-width="2" stroke-opacity="1" transform="matrix(1,0,0,1,373.3472,465)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 1;"></path><text x="391.34716796875" y="472" text-anchor="start" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: Arial; font-size: 15px; font-weight: lighter; opacity: 1; user-select: none; cursor: pointer;" dominant-baseline="central" font-weight="lighter" opacity="1"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2Y</tspan></text><path fill="none" stroke="#ff5a46" d="M1,9L1,3C1,1.8954305,1.8954305,1,3,1L3,1C4.1045695,1,5,1.8954305,5,3L5,7C5,8.1045695,5.8954305,9,7,9L7,9C8.1045695,9,9,8.1045695,9,7L9,1" stroke-width="2" stroke-opacity="1" transform="matrix(1,0,0,1,442.6943,465)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 1;"></path><text x="460.6943359375" y="472" text-anchor="start" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: Arial; font-size: 15px; font-weight: lighter; opacity: 1; user-select: none; cursor: pointer;" dominant-baseline="central" font-weight="lighter" opacity="1"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">3Y</tspan></text><path fill="none" stroke="#00bd9f" d="M1,9L1,3C1,1.8954305,1.8954305,1,3,1L3,1C4.1045695,1,5,1.8954305,5,3L5,7C5,8.1045695,5.8954305,9,7,9L7,9C8.1045695,9,9,8.1045695,9,7L9,1" stroke-width="2" stroke-opacity="1" transform="matrix(1,0,0,1,512.0415,465)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 1;"></path><text x="530.04150390625" y="472" text-anchor="start" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: Arial; font-size: 15px; font-weight: lighter; opacity: 1; user-select: none; cursor: pointer;" dominant-baseline="central" font-weight="lighter" opacity="1"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">4Y</tspan></text><path fill="none" stroke="#785fff" d="M1,9L1,3C1,1.8954305,1.8954305,1,3,1L3,1C4.1045695,1,5,1.8954305,5,3L5,7C5,8.1045695,5.8954305,9,7,9L7,9C8.1045695,9,9,8.1045695,9,7L9,1" stroke-width="2" stroke-opacity="1" transform="matrix(1,0,0,1,581.3887,465)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 1;"></path><text x="599.388671875" y="472" text-anchor="start" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: Arial; font-size: 15px; font-weight: lighter; opacity: 1; user-select: none; cursor: pointer;" dominant-baseline="central" font-weight="lighter" opacity="1"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">5Y</tspan></text><path fill="none" stroke="#f28b8c" d="M1,9L1,3C1,1.8954305,1.8954305,1,3,1L3,1C4.1045695,1,5,1.8954305,5,3L5,7C5,8.1045695,5.8954305,9,7,9L7,9C8.1045695,9,9,8.1045695,9,7L9,1" stroke-width="2" stroke-opacity="1" transform="matrix(1,0,0,1,650.7358,465)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 1;"></path><text x="668.73583984375" y="472" text-anchor="start" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: Arial; font-size: 15px; font-weight: lighter; opacity: 1; user-select: none; cursor: pointer;" dominant-baseline="central" font-weight="lighter" opacity="1"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">7Y</tspan></text><path fill="none" stroke="#989486" d="M1,9L1,3C1,1.8954305,1.8954305,1,3,1L3,1C4.1045695,1,5,1.8954305,5,3L5,7C5,8.1045695,5.8954305,9,7,9L7,9C8.1045695,9,9,8.1045695,9,7L9,1" stroke-width="2" stroke-opacity="1" transform="matrix(1,0,0,1,720.083,465)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 1;"></path><text x="738.0830078125" y="472" text-anchor="start" font-family="Arial" font-size="15px" stroke="none" fill="#333333" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: Arial; font-size: 15px; font-weight: lighter; opacity: 1; user-select: none; cursor: pointer;" dominant-baseline="central" font-weight="lighter" opacity="1"><tspan dy="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">10Y</tspan></text></svg><div class="tui-chart-tooltip-area" style="top: 0px; left: 35px;"></div><div class="tui-chart-series-custom-event-area" style="width: 1014px; height: 441px; top: 0px; left: 35px;"><div style="background-color: rgb(255, 255, 255); height: 441px; opacity: 0;"></div></div></div></section>
+            <header class="table">
+                <dl class="standard right">
+                    <dt>단위</dt>
+                    <dd>%</dd>
+                </dl>
+            </header>
+            <div class="hScroll">
+                <table class="list">
+                    <colgroup>
+                        <col class="date">
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th scope="col">전송일</th>
+                            <th scope="col">1Y</th>
+                            <th scope="col">2Y</th>
+                            <th scope="col">3Y</th>
+                            <th scope="col">4Y</th>
+                            <th scope="col">5Y</th>
+                            <th scope="col">7Y</th>
+                            <th scope="col">10Y</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    
+					
+					
+						
+                        <tr>
+                            <td class="gray">2026/11/13</td>
+                            <td>3.5975</td>
+                            <td>3.705</td>
+                            <td>3.735</td>
+                            <td>3.76</td>
+                            <td>3.7775</td>
+                            <td>3.805</td>
+                            <td>3.83</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="gray">2026/11/12</td>
+                            <td>3.5825</td>
+                            <td>3.6825</td>
+                            <td>3.7075</td>
+                            <td>3.725</td>
+                            <td>3.7375</td>
+                            <td>3.7525</td>
+                            <td>3.765</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="gray">2026/11/11</td>
+                            <td>3.595</td>
+                            <td>3.685</td>
+                            <td>3.7025</td>
+                            <td>3.72</td>
+                            <td>3.7325</td>
+                            <td>3.7475</td>
+                            <td>3.7625</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="gray">2026/11/10</td>
+                            <td>3.5375</td>
+                            <td>3.58</td>
+                            <td>3.6025</td>
+                            <td>3.6175</td>
+                            <td>3.63</td>
+                            <td>3.645</td>
+                            <td>3.66</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="gray">2026/11/09</td>
+                            <td>3.495</td>
+                            <td>3.5625</td>
+                            <td>3.5925</td>
+                            <td>3.6125</td>
+                            <td>3.6275</td>
+                            <td>3.6425</td>
+                            <td>3.655</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="gray">2026/11/06</td>
+                            <td>3.47</td>
+                            <td>3.5575</td>
+                            <td>3.5825</td>
+                            <td>3.6075</td>
+                            <td>3.625</td>
+                            <td>3.6475</td>
+                            <td>3.665</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="gray">2026/11/05</td>
+                            <td>3.53</td>
+                            <td>3.6325</td>
+                            <td>3.6475</td>
+                            <td>3.6675</td>
+                            <td>3.675</td>
+                            <td>3.69</td>
+                            <td>3.695</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="gray">2026/11/04</td>
+                            <td>3.55</td>
+                            <td>3.66</td>
+                            <td>3.6975</td>
+                            <td>3.73</td>
+                            <td>3.74</td>
+                            <td>3.755</td>
+                            <td>3.765</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="gray">2026/11/03</td>
+                            <td>3.5
