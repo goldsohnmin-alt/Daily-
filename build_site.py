@@ -10,6 +10,7 @@ docs/index.html 이 data.json 을 읽어 화면에 보여줍니다.
 
 import json
 import math
+import re
 import datetime as dt
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -24,7 +25,9 @@ from scrapers import (
     scrape_kofia_cp,
     scrape_kofia_cd,
     scrape_kmb_irs_crs,
-    scrape_naver_kospi_dow_fx,
+    scrape_naver_kospi,
+    scrape_naver_dow,
+    scrape_naver_fx,
     scrape_term_sofr,
     make_driver,
 )
@@ -47,37 +50,58 @@ def clean(v):
     return None if math.isnan(f) else f
 
 
-def collect_day(driver, target, cp_query_date, errors, tag):
+DEBUG_DIR = OUT / "debug"
+
+
+def save_debug(driver, dbg_id):
+    """실패한 순간의 화면(png)과 페이지 내용(txt)을 docs/debug 에 저장 (원인 파악용)."""
+    try:
+        DEBUG_DIR.mkdir(parents=True, exist_ok=True)
+        driver.save_screenshot(str(DEBUG_DIR / f"{dbg_id}.png"))
+        src = driver.page_source or ""
+        frames = driver.find_elements("css selector", "iframe, frame")
+        with open(DEBUG_DIR / f"{dbg_id}.txt", "w", encoding="utf-8") as f:
+            f.write(f"url: {driver.current_url}\ntitle: {driver.title}\n")
+            f.write(f"page_source_length: {len(src)}\niframe_count: {len(frames)}\n\n")
+            f.write(src[:120000])
+    except Exception as e:  # noqa: BLE001
+        print("debug 저장 실패:", e)
+
+
+def collect_day(driver, target, cp_query_date, errors, tag, dbg_prefix=None):
     """하루치(전일 또는 전전일) 데이터를 수집. 실패 항목은 None 으로 두고 errors 에 기록."""
     ref = {k: None for k in REF_LABELS}
     matrix = None
 
-    def run(name, fn):
+    def run(name, fn, dbg_id=None, browser=True):
         try:
             return fn()
         except Exception as e:  # noqa: BLE001
-            errors.append(f"[{tag}] {name}: {str(e)[:200]}")
+            msg = str(e).split("Stacktrace")[0].strip()
+            errors.append(f"[{tag}] {name}: {type(e).__name__} {msg[:300]}")
+            if browser and dbg_prefix and dbg_id:
+                save_debug(driver, f"{dbg_prefix}_{dbg_id}")
             return None
 
-    df = run("채권시가평가수익률", lambda: scrape_kofia_bond_matrix(driver, target))
+    df = run("채권시가평가수익률", lambda: scrape_kofia_bond_matrix(driver, target), "bond")
     if df is not None:
         if df.shape == (43, 16):
             matrix = [[clean(v) for v in row] for row in df.values.tolist()]
         else:
             errors.append(f"[{tag}] 채권시가평가수익률: 표 크기가 예상(43x16)과 다름 {df.shape}")
 
-    ref["CP(91일)"] = run("CP(91일)", lambda: scrape_kofia_cp(driver, cp_query_date))
-    ref["CD(91일)"] = run("CD(91일)", lambda: scrape_kofia_cd(driver, target))
+    ref["CP(91일)"] = run("CP(91일)", lambda: scrape_kofia_cp(driver, cp_query_date), "cp")
+    ref["CD(91일)"] = run("CD(91일)", lambda: scrape_kofia_cd(driver, target), "cd")
 
-    irs_crs = run("IRS/CRS", lambda: scrape_kmb_irs_crs(driver, target))
+    irs_crs = run("IRS/CRS", lambda: scrape_kmb_irs_crs(driver, target), "kmb")
     if irs_crs:
         ref["IRS(3Y)"], ref["CRS(3년)"] = irs_crs
 
-    ref["Term SOFR"] = run("Term SOFR", lambda: scrape_term_sofr(driver, target))
+    ref["Term SOFR"] = run("Term SOFR", lambda: scrape_term_sofr(driver, target), "sofr")
 
-    naver = run("네이버금융(환율/KOSPI/다우)", lambda: scrape_naver_kospi_dow_fx(target))
-    if naver:
-        ref["환율"], ref["KOSPI"], ref["다우지수"] = naver
+    ref["환율"] = run("네이버 환율", lambda: scrape_naver_fx(target), browser=False)
+    ref["KOSPI"] = run("네이버 KOSPI", lambda: scrape_naver_kospi(target), browser=False)
+    ref["다우지수"] = run("네이버 다우지수", lambda: scrape_naver_dow(target), browser=False)
 
     ref = {k: clean(v) for k, v in ref.items()}
     return {"date": target.isoformat(), "matrix": matrix, "ref": ref}
@@ -150,7 +174,8 @@ def main():
             days[key] = {"date": target.isoformat(), "matrix": None,
                          "ref": {k: None for k in REF_LABELS}}
             continue
-        days[key] = collect_day(driver, target, cp_q, errors, "전일" if key == "prev" else "전전일")
+        days[key] = collect_day(driver, target, cp_q, errors, "전일" if key == "prev" else "전전일",
+                                dbg_prefix="prev" if key == "prev" else None)
     if driver:
         driver.quit()
 

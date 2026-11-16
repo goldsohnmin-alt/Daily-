@@ -307,62 +307,76 @@ def scrape_kmb_irs_crs(driver, target_date: dt.date):
 # 3. 네이버금융: KOSPI, 다우지수, 원/달러 매매기준율
 # =====================================================================
 
+NAVER_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
+    "Referer": "https://finance.naver.com/",
+    "Accept-Language": "ko-KR,ko;q=0.9",
+}
+
+
+def _num(text):
+    return float(str(text).replace(",", "").strip())
+
+
+def scrape_naver_kospi(target_date: dt.date) -> float:
+    url = "https://finance.naver.com/sise/sise_index_day.naver?code=KOSPI"
+    date_str = target_date.strftime("%Y.%m.%d")
+    seen, status = [], None
+    for page in range(1, 6):
+        resp = requests.get(f"{url}&page={page}", headers=NAVER_HEADERS, timeout=15)
+        status = resp.status_code
+        soup = BeautifulSoup(resp.content.decode(resp.apparent_encoding or "euc-kr", errors="ignore"), "lxml")
+        for row in soup.select("tr"):
+            tds = row.find_all("td")
+            if len(tds) >= 2 and re.match(r"\d{4}\.\d{2}\.\d{2}", tds[0].get_text(strip=True)):
+                seen.append(tds[0].get_text(strip=True))
+                if tds[0].get_text(strip=True) == date_str:
+                    return _num(tds[1].get_text(strip=True))
+    raise RuntimeError(f"KOSPI {date_str} 없음 (http={status}, 읽은 날짜 {len(seen)}건, 앞 3건={seen[:3]})")
+
+
+def scrape_naver_dow(target_date: dt.date) -> float:
+    base = "https://finance.naver.com/world/worldDayListJson.naver?symbol=DJI@DJI&fdtc=0"
+    ymd = target_date.strftime("%Y%m%d")
+    seen, status, sample = [], None, ""
+    for page in range(1, 4):
+        resp = requests.get(f"{base}&page={page}", headers=NAVER_HEADERS, timeout=15)
+        status = resp.status_code
+        try:
+            data = resp.json()
+        except Exception:
+            sample = resp.text[:120].replace("\n", " ")
+            continue
+        for item in data:
+            seen.append(str(item.get("xymd", "")))
+            if str(item.get("xymd", "")) == ymd:
+                for key in ("close_price", "clos", "close", "last"):
+                    if item.get(key) not in (None, ""):
+                        return _num(item[key])
+                raise RuntimeError(f"다우 {ymd} 항목은 있으나 종가 필드를 모름: keys={list(item.keys())}")
+    raise RuntimeError(f"다우 {ymd} 없음 (http={status}, 읽은 날짜 {len(seen)}건, 앞 3건={seen[:3]}, 응답샘플={sample})")
+
+
+def scrape_naver_fx(target_date: dt.date) -> float:
+    url = "https://finance.naver.com/marketindex/exchangeDailyQuote.naver?marketindexCd=FX_USDKRW"
+    date_str = target_date.strftime("%Y.%m.%d")
+    seen, status = [], None
+    for page in range(1, 6):
+        resp = requests.get(f"{url}&page={page}", headers=NAVER_HEADERS, timeout=15)
+        status = resp.status_code
+        soup = BeautifulSoup(resp.content.decode(resp.apparent_encoding or "euc-kr", errors="ignore"), "lxml")
+        for row in soup.select("tr"):
+            tds = row.find_all("td")
+            if len(tds) >= 2 and re.match(r"\d{4}\.\d{2}\.\d{2}", tds[0].get_text(strip=True)):
+                seen.append(tds[0].get_text(strip=True))
+                if tds[0].get_text(strip=True) == date_str:
+                    return _num(tds[1].get_text(strip=True))
+    raise RuntimeError(f"환율 {date_str} 없음 (http={status}, 읽은 날짜 {len(seen)}건, 앞 3건={seen[:3]})")
+
+
 def scrape_naver_kospi_dow_fx(target_date: dt.date):
-    """
-    target_date의 종가/기준율을 조회. 네이버금융은 '일별시세'에서 특정일자 값을 바로 조회하기보다
-    최근 값 리스트를 가져와서 target_date에 해당하는 값을 찾는 방식이 안정적입니다.
-    """
-    headers = {"User-Agent": "Mozilla/5.0"}
-
-    # --- KOSPI ---
-    kospi_url = "https://finance.naver.com/sise/sise_index_day.naver?code=KOSPI"
-    kospi_val = _naver_index_value_for_date(kospi_url, target_date, headers)
-
-    # --- 다우지수 (world index) ---
-    dow_url = "https://finance.naver.com/world/worldDayListJson.naver?symbol=DJI@DJI&fdtc=0"
-    dow_val = _naver_world_index_value_for_date(dow_url, target_date, headers)
-
-    # --- 원/달러 매매기준율 ---
-    fx_url = "https://finance.naver.com/marketindex/exchangeDailyQuote.naver?marketindexCd=FX_USDKRW"
-    fx_val = _naver_fx_value_for_date(fx_url, target_date, headers)
-
-    return fx_val, kospi_val, dow_val
-
-
-def _naver_index_value_for_date(url, target_date, headers):
-    date_str = target_date.strftime("%Y.%m.%d")
-    for page in range(1, 6):
-        resp = requests.get(f"{url}&page={page}", headers=headers, timeout=10)
-        soup = BeautifulSoup(resp.text, "lxml")
-        rows = soup.select("table.type_1 tr")
-        for row in rows:
-            tds = row.find_all("td")
-            if len(tds) >= 2 and tds[0].get_text(strip=True) == date_str:
-                return float(tds[1].get_text(strip=True).replace(",", ""))
-    raise RuntimeError(f"KOSPI에서 {target_date} 값을 찾지 못했습니다. (네이버 페이지 구조 변경 가능성)")
-
-
-def _naver_world_index_value_for_date(url, target_date, headers):
-    resp = requests.get(url, headers=headers, timeout=10)
-    data = resp.json()
-    date_str = target_date.strftime("%Y.%m.%d")
-    for item in data:
-        if item.get("xymd") == target_date.strftime("%Y%m%d") or item.get("date") == date_str:
-            return float(str(item.get("clos", item.get("close", ""))).replace(",", ""))
-    raise RuntimeError(f"다우지수에서 {target_date} 값을 찾지 못했습니다. (JSON 구조 확인 필요)")
-
-
-def _naver_fx_value_for_date(url, target_date, headers):
-    date_str = target_date.strftime("%Y.%m.%d")
-    for page in range(1, 6):
-        resp = requests.get(f"{url}&page={page}", headers=headers, timeout=10)
-        soup = BeautifulSoup(resp.text, "lxml")
-        rows = soup.select("table.tbl_exchange tr")
-        for row in rows:
-            tds = row.find_all("td")
-            if len(tds) >= 2 and tds[0].get_text(strip=True) == date_str:
-                return float(tds[1].get_text(strip=True).replace(",", ""))
-    raise RuntimeError(f"환율에서 {target_date} 값을 찾지 못했습니다.")
+    """(로컬 실행용) 세 값을 한 번에 반환. 서버용 build_site.py 는 위 개별 함수를 따로 호출."""
+    return scrape_naver_fx(target_date), scrape_naver_kospi(target_date), scrape_naver_dow(target_date)
 
 
 # =====================================================================
