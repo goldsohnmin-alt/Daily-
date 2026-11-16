@@ -9,8 +9,8 @@ page_source_length: 645
 <link href="/images/favicon.ico" rel="shortcut icon">
 </head>
 <frameset rows="*,100%" frameborder="no" border="0" framespacing="0">
-   <frame name="fraAMAKTop" src="#" scrolling="no" marginheight="0" marginwidth="0" noresize="" cd_frame_id_="8e8b0020dce8ca64e042175462e15dbf">
-   <frame name="fraAMAKMain" src="/html/MAIN.html" scrolling="auto" cd_frame_id_="ef31535fee7eadceaf8c4145889d9092">
+   <frame name="fraAMAKTop" src="#" scrolling="no" marginheight="0" marginwidth="0" noresize="" cd_frame_id_="b3f15b936f93e566b213bf6899c6e774">
+   <frame name="fraAMAKMain" src="/html/MAIN.html" scrolling="auto" cd_frame_id_="3d3ed72845950f541702d1de43dd097d">
    <noframes>
    <body>
    <p> This page uses frames, but your browser doesn't support them. 
@@ -28,8 +28,8 @@ page_source_length: 645
 <link href="/images/favicon.ico" rel="shortcut icon">
 </head>
 <frameset rows="*,100%" frameborder="no" border="0" framespacing="0">
-   <frame name="fraAMAKTop" src="#" scrolling="no" marginheight="0" marginwidth="0" noresize="" cd_frame_id_="05cde22ed84ab8aba0854983b9fd61c6">
-   <frame name="fraAMAKMain" src="/html/MAIN.html" scrolling="auto" cd_frame_id_="bac2baf2a8a2fceb4fd33fa8b43f9917">
+   <frame name="fraAMAKTop" src="#" scrolling="no" marginheight="0" marginwidth="0" noresize="" cd_frame_id_="c2b3b02c5f46a98863ea2d9bf13085d6">
+   <frame name="fraAMAKMain" src="/html/MAIN.html" scrolling="auto" cd_frame_id_="3665fa620515eb07e8003e20ac2796fb">
    <noframes>
    <body>
    <p> This page uses frames, but your browser doesn't support them. 
@@ -42,7 +42,7 @@ page_source_length: 645
 --- 소스 앞부분 ---
 <html><head></head><body marginwidth="0" marginheight="0"></body></html>
 
-===== 프레임 0.1 | 길이=422479 =====
+===== 프레임 0.1 | 길이=422489 =====
   A | id=textbox1 | name= | class=w2textbox  | type= | value= | title= | alt= | onclick= | text=메뉴바로가기 | checked=undefined
   A | id=textbox2 | name= | class=w2textbox  | type= | value= | title= | alt= | onclick= | text=본문바로가기 | checked=undefined
   A | id=mgroup14 | name= | class=w2group  | type= | value= | title= | alt= | onclick= | text= | checked=undefined
@@ -472,8 +472,8 @@ page_source_length: 645
       if (urlPrefix != 'www'  && !useTabControl ) {
     
 
-===== 프레임 1.0.0 | 길이=188983 =====
-  INPUT | id=srchDt_input | name=srchDt_input | class=w2inputCalendar_input w95 h17 | type=text | value=2026-11-12 | title=조회 시작일 | alt= | onclick= | text= | checked=false
+===== 프레임 1.0.0 | 길이=201053 =====
+  INPUT | id=srchDt_input | name=srchDt_input | class=w2inputCalendar_input w95 h17 w2inputCal | type=text | value=20261112 | title=조회 시작일 | alt= | onclick= | text= | checked=false
   IMG | id=srchDt_img | name= | class=w2inputCalendar_img | type= | value= | title= | alt=open | onclick= | text= | checked=undefined
   SELECT | id=selectComp_input_0 | name= | class=w2selectbox_native_select | type=select-one | value=평가사 평균(`23.1.9~) | title= | alt= | onclick= | text=통합표
 KIS자산평가
@@ -481,11 +481,11 @@ KIS자산평가
 나 | checked=undefined
   A | id=group216 | name= | class=w2group fr mgt7 mgr10 | type= | value= | title= | alt= | onclick= | text= | checked=undefined
   IMG | id=image1 | name= | class=w2image  | type= | value= | title= | alt=조회 | onclick= | text= | checked=undefined
-  INPUT | id=checkbox1_input_0 | name=fruit2 | class=w2checkbox_input | type=checkbox | value=on | title=나이스<br/>피앤아이 | alt= | onclick= | text= | checked=true
-  INPUT | id=checkbox2_input_0 | name=fruit2 | class=w2checkbox_input | type=checkbox | value=on | title=한국<br/>자산평가 | alt= | onclick= | text= | checked=true
-  INPUT | id=checkbox3_input_0 | name=fruit2 | class=w2checkbox_input | type=checkbox | value=on | title=KIS<br/>자산평가 | alt= | onclick= | text= | checked=true
-  INPUT | id=checkbox4_input_0 | name=fruit2 | class=w2checkbox_input | type=checkbox | value=on | title=에프앤<br/>자산평가 | alt= | onclick= | text= | checked=true
-  INPUT | id=checkbox5_input_0 | name=fruit2 | class=w2checkbox_input | type=checkbox | value=on | title=이지<br/>자산평가 | alt= | onclick= | text= | checked=true
+  INPUT | id=checkbox1_input_0 | name=fruit2 | class=w2checkbox_input | type=checkbox | value=on | title=나이스<br/>피앤아이 | alt= | onclick= | text= | checked=false
+  INPUT | id=checkbox2_input_0 | name=fruit2 | class=w2checkbox_input | type=checkbox | value=on | title=한국<br/>자산평가 | alt= | onclick= | text= | checked=false
+  INPUT | id=checkbox3_input_0 | name=fruit2 | class=w2checkbox_input | type=checkbox | value=on | title=KIS<br/>자산평가 | alt= | onclick= | text= | checked=false
+  INPUT | id=checkbox4_input_0 | name=fruit2 | class=w2checkbox_input | type=checkbox | value=on | title=에프앤<br/>자산평가 | alt= | onclick= | text= | checked=false
+  INPUT | id=checkbox5_input_0 | name=fruit2 | class=w2checkbox_input | type=checkbox | value=on | title=이지<br/>자산평가 | alt= | onclick= | text= | checked=false
   A | id=grpExcel | name= | class=w2group fl mgl5 mgr5 | type= | value= | title=엑셀 다운로드 바로가기 | alt= | onclick= | text= | checked=undefined
   IMG | id=imgExcel | name= | class=w2image  | type= | value= | title= | alt=엑셀 다운로드 아이콘 이미지 | onclick= | text= | checked=undefined
   TH | id=grdMain_column1 | name=undefined | class=gridHeaderTDDefault gridHeaderTDDefault_ | type= | value= | title= | alt= | onclick= | text=종류 | checked=undefined
