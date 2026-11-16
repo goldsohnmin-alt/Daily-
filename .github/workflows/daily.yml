@@ -19,7 +19,7 @@ jobs:
       - name: Collect data and build site files
         env:
           ECOS_API_KEY: ${{ secrets.ECOS_API_KEY }}
-        run: python run_daily.py
+        run: python run_daily_v3.py
       - name: Commit results
         run: |
           git config user.name "github-actions"
