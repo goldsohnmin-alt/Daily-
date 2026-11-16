@@ -6,6 +6,7 @@ F12 개발자도구로 실제 id/class를 확인해서 아래 SELECTOR 상수들
 """
 
 import os
+import json
 import time
 import datetime as dt
 import re
@@ -43,6 +44,7 @@ def make_driver(headless: bool = True):
     # 서버(리눅스) 실행용 옵션
     opts.add_argument("--no-sandbox")
     opts.add_argument("--disable-dev-shm-usage")
+    opts.set_capability("goog:loggingPrefs", {"performance": "ALL"})  # 사이트가 주고받는 요청 기록(진단용)
     try:
         # Selenium 4.6+ 내장 드라이버 관리자 사용
         driver = webdriver.Chrome(options=opts)
@@ -51,6 +53,10 @@ def make_driver(headless: bool = True):
         from selenium.webdriver.chrome.service import Service
         service = Service(ChromeDriverManager().install())
         driver = webdriver.Chrome(service=service, options=opts)
+    try:
+        driver.execute_cdp_cmd("Network.enable", {})
+    except Exception:  # noqa: BLE001
+        pass
     global _LAST_DRIVER
     _LAST_DRIVER = driver
     return driver
@@ -276,34 +282,198 @@ def _read_val(driver, el):
     return (driver.execute_script("return arguments[0].value;", el) or "").strip()
 
 
+# ---------- 진단 도구: 날짜 칸의 구조, 달력 팝업, 조회할 때 오가는 요청을 docs/debug 에 저장 ----------
+_DIAG_DONE = set()
+DEBUG_OUT = os.path.join("docs", "debug")
+
+_JS_ELEMENTS = r"""
+return Array.from(document.querySelectorAll('input,select,button,a,img,td,th,span,i')).filter(function(e){
+  return (e.offsetWidth || e.offsetHeight) && ((e.innerText||'').trim().length<=12);
+}).slice(0, 220).map(function(e){
+  return [e.tagName, 'id='+e.id, 'class='+(e.className||'').toString().slice(0,50), 'type='+(e.type||''),
+          'value='+(e.value||'').toString().slice(0,20), 'title='+(e.title||''), 'alt='+(e.alt||''),
+          'onclick='+(e.getAttribute('onclick')||'').slice(0,50), 'text='+(e.innerText||'').trim().slice(0,12)].join(' | ');
+});
+"""
+
+
+def _diag_write(name, text):
+    try:
+        os.makedirs(DEBUG_OUT, exist_ok=True)
+        with open(os.path.join(DEBUG_OUT, name), "w", encoding="utf-8") as f:
+            f.write(text)
+    except Exception:  # noqa: BLE001
+        pass
+
+
+def _dump_date_input(driver, el):
+    if "date_input" in _DIAG_DONE:
+        return
+    _DIAG_DONE.add("date_input")
+    try:
+        info = driver.execute_script(
+            "var e=arguments[0],p=e.parentElement,g=p?p.parentElement:null;"
+            "return {html:e.outerHTML.slice(0,700), readonly:e.readOnly, disabled:e.disabled, maxlength:e.maxLength,"
+            "parent:p?p.outerHTML.slice(0,1500):'', grand:g?g.outerHTML.slice(0,2500):''};", el)
+        _diag_write("date_input.txt", json.dumps(info, ensure_ascii=False, indent=1))
+    except Exception as e:  # noqa: BLE001
+        _diag_write("date_input.txt", f"실패 {type(e).__name__} {e}")
+
+
+def _dump_calendar(driver):
+    if "calendar" in _DIAG_DONE:
+        return
+    _DIAG_DONE.add("calendar")
+    try:
+        _diag_write("date_popup.txt", "\n".join(driver.execute_script(_JS_ELEMENTS) or []))
+    except Exception as e:  # noqa: BLE001
+        _diag_write("date_popup.txt", f"실패 {type(e).__name__} {e}")
+
+
+def _net_mark(driver):
+    """이전 기록을 비워 둔다(조회 버튼을 누른 직후의 요청만 남기려고)."""
+    try:
+        driver.get_log("performance")
+    except Exception:  # noqa: BLE001
+        pass
+
+
+def _net_save_once(driver, name):
+    if name in _DIAG_DONE:
+        return
+    _DIAG_DONE.add(name)
+    lines = []
+    try:
+        raw = driver.get_log("performance")
+        reqs = []
+        for entry in raw:
+            msg = json.loads(entry["message"])["message"]
+            if msg.get("method") != "Network.requestWillBeSent":
+                continue
+            p = msg["params"]
+            r = p["request"]
+            if re.search(r"\.(js|css|png|gif|jpe?g|ico|woff2?|svg)(\?|$)", r["url"], re.I):
+                continue
+            reqs.append((p["requestId"], r["method"], r["url"], r.get("postData", "")))
+        for rid, method, url, post in reqs[-10:]:
+            lines.append(f"{method} {url}\n  본문: {post[:1500]}")
+            try:
+                body = driver.execute_cdp_cmd("Network.getResponseBody", {"requestId": rid}).get("body", "")
+                lines.append("  응답: " + body[:2500].replace("\n", " "))
+            except Exception as e:  # noqa: BLE001
+                lines.append(f"  응답: (읽기 실패 {type(e).__name__})")
+    except Exception as e:  # noqa: BLE001
+        lines.append(f"기록 읽기 실패 {type(e).__name__} {e}")
+    _diag_write(f"net_{name}.txt", "\n".join(lines) or "(요청 없음)")
+
+
+def _diag_search_capture(driver):
+    """날짜 입력에 실패했을 때: 기본 날짜로라도 조회해 보고 그때 오가는 요청을 기록한다."""
+    if "bond_default" in _DIAG_DONE:
+        return
+    try:
+        _check_all_boxes(driver)
+        _net_mark(driver)
+        _press_search(driver)
+        _dismiss_popups(driver)
+        _net_save_once(driver, "bond_default")
+    except Exception:  # noqa: BLE001
+        pass
+    finally:
+        driver.switch_to.default_content()
+
+
+# ---------- 날짜 칸 조작: (1) 타이핑 (2) 천천히 타이핑 (3) 달력 버튼 ----------
+def _calendar_pick(driver, el, value):
+    """입력칸 옆의 달력 버튼을 눌러 연/월/일을 고른다(구조를 모르는 상태의 최선 시도 + 진단 기록)."""
+    y, m, d = (int(x) for x in value.split("-"))
+    btn = driver.execute_script(
+        "var e=arguments[0], p=e.parentElement;"
+        "for (var i=0;i<3 && p;i++, p=p.parentElement){"
+        "  var c=p.querySelectorAll('img,button,a,span,i,input[type=button],input[type=image]');"
+        "  for (var k=0;k<c.length;k++){var x=c[k]; if(x===e) continue; if(x.offsetWidth&&x.offsetHeight) return x;}}"
+        "return null;", el)
+    if not btn:
+        raise RuntimeError("달력 버튼을 못 찾음")
+    _click(driver, btn)
+    time.sleep(1)
+    _dump_calendar(driver)
+    # 연/월 선택칸(select)이 있으면 맞춘다
+    driver.execute_script(
+        "var y=arguments[0], m=arguments[1];"
+        "document.querySelectorAll('select').forEach(function(s){"
+        "  if(!(s.offsetWidth||s.offsetHeight)) return;"
+        "  Array.from(s.options).forEach(function(o){"
+        "    var t=(o.text||'')+' '+(o.value||'');"
+        "    var isYear = /^\\s*\\d{4}/.test(o.text||'') || /^\\d{4}$/.test(o.value||'');"
+        "    if(isYear && String(parseInt(t))===String(y)){ s.value=o.value; s.dispatchEvent(new Event('change',{bubbles:true})); }"
+        "    else if(!isYear && s.options.length>=12 && parseInt(o.value||o.text,10)===m){ s.value=o.value; s.dispatchEvent(new Event('change',{bubbles:true})); }"
+        "  });"
+        "});", y, m)
+    time.sleep(0.8)
+    # 날짜 칸(숫자 d) 클릭 - 지난달/다음달 흐린 칸은 제외
+    clicked = driver.execute_script(
+        "var d=String(arguments[0]); var cand=Array.from(document.querySelectorAll('td,a,span,button'))"
+        ".filter(function(x){return (x.offsetWidth||x.offsetHeight) && (x.innerText||'').trim()===d;});"
+        "cand=cand.filter(function(x){var c=((x.className||'')+' '+(x.parentElement?x.parentElement.className:'')).toLowerCase();"
+        "  return !/(other|prev|next|dim|disabled|out|gray)/.test(c);});"
+        "if(!cand.length) return false; cand[0].click(); return true;", d)
+    if not clicked:
+        raise RuntimeError("달력에서 날짜 칸을 못 찾음")
+    time.sleep(1)
+
+
 def _set_first_date(driver, value, alt=False):
-    """조회일 칸을 찾아 value(YYYY-MM-DD)로 맞춘다. 이 사이트는 숫자 8자리(YYYYMMDD)로 입력해야 하므로
-    하이픈 없이 타이핑한다. alt=True 는 재시도용(천천히 한 글자씩, 엔터로 확정).
-    사이트가 날짜를 정상 형식(YYYY-MM-DD)으로 받아들인 경우에만 성공으로 본다(다른 날짜 값이 섞이는 걸 막기 위해)."""
+    """조회일 칸을 value(YYYY-MM-DD)로 맞춘다. 사이트가 날짜를 정상 형식으로 받아들인 경우에만 성공으로 본다
+    (다른 날짜 값이 조용히 섞이는 걸 막기 위해). 순서: 타이핑 -> 천천히 타이핑 -> 달력 버튼."""
     el = _wait_probe(driver, _date_probe, 25, "날짜 입력칸")
     digits = value.replace("-", "")
     if _read_val(driver, el) == value:
         return
-    try:
+    _dump_date_input(driver, el)
+    tried = []
+
+    def ok():
+        return _read_val(driver, el) == value
+
+    try:  # (1) 전체 선택 후 숫자 8자리 타이핑
         el.click()
         el.send_keys(Keys.CONTROL, "a")
-        el.send_keys(Keys.BACKSPACE)
-        if alt:
-            for _ in range(12):
-                el.send_keys(Keys.BACKSPACE)
-        for ch in digits:
-            el.send_keys(ch)
-            time.sleep(0.15 if alt else 0.03)
-        if alt:
-            el.send_keys(Keys.ENTER)
+        el.send_keys(digits)
         el.send_keys(Keys.TAB)
         driver.execute_script("arguments[0].blur();", el)
     except WebDriverException:
         pass
     time.sleep(0.8)
+    if ok():
+        return
+    tried.append("타이핑:" + _read_val(driver, el))
+
+    try:  # (2) 지우고 천천히 타이핑 + 엔터
+        el.click()
+        el.send_keys(Keys.CONTROL, "a")
+        el.send_keys(Keys.BACKSPACE)
+        for ch in digits:
+            el.send_keys(ch)
+            time.sleep(0.15)
+        el.send_keys(Keys.ENTER)
+        el.send_keys(Keys.TAB)
+    except WebDriverException:
+        pass
+    time.sleep(0.8)
+    if ok():
+        return
+    tried.append("천천히:" + _read_val(driver, el))
+
+    try:  # (3) 달력 버튼
+        _calendar_pick(driver, el, value)
+        el = _wait_probe(driver, _date_probe, 8, "날짜 입력칸")
+    except Exception as e:  # noqa: BLE001
+        tried.append("달력:" + str(e)[:40])
+    if ok():
+        return
     cur = _read_val(driver, el)
-    if cur != value:
-        raise RuntimeError(f"날짜 입력 실패(칸에 남은 값 '{cur}', 원하는 값 {value})")
+    raise RuntimeError(f"날짜 입력 실패(칸에 남은 값 '{cur}', 원하는 값 {value}; 시도 {tried})")
 
 
 def _verify_date_after_search(driver, value):
@@ -389,11 +559,17 @@ def _bond_once(driver, target_date, alt):
     _kofia_goto(driver, "시가평가", "채권시가평가수익률")
     time.sleep(2)
     _dismiss_popups(driver)
-    _set_first_date(driver, _date_str(target_date), alt=alt)
+    try:
+        _set_first_date(driver, _date_str(target_date), alt=alt)
+    except RuntimeError:
+        _diag_search_capture(driver)  # 다음 수정을 위해 기본 날짜로 조회한 요청을 기록
+        raise
     n = _check_all_boxes(driver)
     if n < 2:
         raise RuntimeError(f"평가사 체크박스를 못 찾음(찾은 수 {n})")
+    _net_mark(driver)
     _press_search(driver)
+    _net_save_once(driver, "bond")
     _dismiss_popups(driver)
     _raise_if_date_popup()
     _find_in_frames(driver, [(By.XPATH, "//th[contains(.,'3월')]")], 25)
