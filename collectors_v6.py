@@ -644,10 +644,11 @@ def _cp_once(driver, query_date, alt):
     _verify_date_after_search(driver, _date_str(query_date))
     row = _find_in_frames(driver, [(By.XPATH, "//tr[td[contains(normalize-space(.),'CP(91일)')]]")], 20)
     cells = [td.text.strip() for td in row.find_elements(By.TAG_NAME, "td")]
-    # 열 순서: 종류명, 잔존기간, 오전, 오후, 전일대비, 전일, 연중최고, 연중최저 -> 끝에서 5번째가 당일 '오후'
-    if len(cells) < 6:
+    # 열 순서: 종류명, 잔존기간, 오전, 오후, 전일대비, 전일, 연중최고, 연중최저 (+ 끝에 빈 칸이 붙기도 함)
+    # 끝의 빈 칸 때문에 뒤에서 세면 밀리므로 앞에서 센다 -> 4번째(cells[3])가 당일 '오후'
+    if len(cells) < 4 or "CP" not in cells[0]:
         raise RuntimeError(f"CP(91일) 행 모양이 이상함: {cells}")
-    val = cells[-5].replace(",", "")
+    val = cells[3].replace(",", "")
     if not val or val == "-":
         raise RuntimeError(f"CP(91일) {query_date} 오후 값이 아직 없음: {cells}")
     return float(val)
