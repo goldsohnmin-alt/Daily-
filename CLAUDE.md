@@ -13,6 +13,9 @@
   `ECOS_API_KEY`가 있으면 한국은행 ECOS API를 대체 경로로 쓴다.
 - `holidays.csv` : 공휴일 목록. 전 영업일 계산에 쓰인다. 매년 말 다음 해 날짜를 추가해야 한다.
 - `row_labels.json` : 채권 표 43행의 종류/종류명/신용등급 이름.
+- `manual_data.csv`, `manual_bond/YYYY-MM-DD.txt` : 사용자가 직접 넣는 과거 자료·정정 값.
+  매 실행마다 `load_manual`/`apply_manual`(run_daily_v6.py)이 history.json 에 덮어쓴다(자동 수집보다 우선).
+  잘못된 줄은 건너뛰고 `[수동입력]` 문구를 errors 에 남긴다. Term SOFR는 공개라서 받지 않는다.
 - `docs/index.html` : 사이트 화면. `data.json`, `history.json`, `private.json`(선택)을 읽는다.
 
 ## 생성되는 파일 (`docs/`, 워크플로가 자동 커밋)

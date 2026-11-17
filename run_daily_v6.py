@@ -220,6 +220,97 @@ def merge_into_history(hist, day):
             e["ref"][k] = day["ref"][k]
 
 
+MANUAL_CSV = Path("manual_data.csv")    # 날짜,항목,값 (지표 직접 입력)
+MANUAL_BOND_DIR = Path("manual_bond")   # YYYY-MM-DD.txt (채권 표 43행 x 16열 직접 입력)
+
+
+def _read_text(path):
+    """엑셀에서 저장한 CSV(cp949)와 웹에서 고친 파일(UTF-8)을 모두 읽는다."""
+    raw = path.read_bytes()
+    for enc in ("utf-8-sig", "cp949"):
+        try:
+            return raw.decode(enc)
+        except UnicodeDecodeError:
+            pass
+    raise ValueError("글자 인코딩을 알 수 없음(UTF-8 또는 CP949로 저장해 주세요)")
+
+
+def _manual_number(s):
+    s = s.strip().replace(",", "")
+    if s in ("", "-"):
+        return None
+    return float(s)
+
+
+def load_manual(errors):
+    """직접 입력한 값을 {날짜: {"ref": {...}, "matrix": [[...]] 또는 None}} 로 읽는다.
+    잘못된 줄은 건너뛰고 errors 에 '[수동입력]' 문구로 남긴다(사이트가 멈추지 않도록)."""
+    manual = {}
+
+    def entry(d):
+        return manual.setdefault(d, {"ref": {}, "matrix": None})
+
+    if MANUAL_CSV.exists():
+        try:
+            lines = _read_text(MANUAL_CSV).splitlines()
+        except ValueError as e:
+            errors.append(f"[수동입력] {MANUAL_CSV}: {e}")
+            lines = []
+        for n, line in enumerate(lines, 1):
+            line = line.strip()
+            if not line or line.startswith("#") or line.replace(" ", "").startswith("날짜,"):
+                continue
+            parts = [p.strip() for p in line.split(",", 2)]
+            try:
+                if len(parts) != 3:
+                    raise ValueError("'날짜,항목,값' 세 칸이 아님")
+                d = dt.date.fromisoformat(parts[0]).isoformat()
+                label = parts[1]
+                if label == "Term SOFR":
+                    raise ValueError("Term SOFR는 공개 저장소에 올라가므로 여기에 적지 마세요")
+                if label not in PUBLIC_REF_LABELS:
+                    raise ValueError(f"항목 이름은 {', '.join(PUBLIC_REF_LABELS)} 중 하나")
+                v = _manual_number(parts[2])
+                if v is None:
+                    raise ValueError("값이 비어 있음")
+                entry(d)["ref"][label] = v
+            except ValueError as e:
+                errors.append(f"[수동입력] {MANUAL_CSV} {n}번째 줄 건너뜀: {e} ({line[:60]})")
+
+    if MANUAL_BOND_DIR.is_dir():
+        for path in sorted(MANUAL_BOND_DIR.glob("*.txt")):
+            if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", path.stem):
+                continue  # 사용법.txt 같은 파일은 무시
+            try:
+                d = dt.date.fromisoformat(path.stem).isoformat()
+                # 탭만 있는 줄(값이 모두 빈 행)은 살리고, 완전히 빈 줄만 버린다
+                rows = [ln for ln in _read_text(path).splitlines() if ln.strip(" \r")]
+                if len(rows) != 43:
+                    raise ValueError(f"줄 수가 43이 아님({len(rows)}줄)")
+                matrix = []
+                for i, ln in enumerate(rows, 1):
+                    cells = ln.split("\t") if "\t" in ln else ln.split(",")
+                    if len(cells) != 16:
+                        raise ValueError(f"{i}번째 줄 칸 수가 16이 아님({len(cells)}칸)")
+                    matrix.append([_manual_number(c) for c in cells])
+                entry(d)["matrix"] = matrix
+            except ValueError as e:
+                errors.append(f"[수동입력] {path} 건너뜀: {e}")
+    return manual
+
+
+def apply_manual(target, manual_day):
+    """target({"matrix", "ref"}) 에 직접 입력한 값을 덮어쓴다. 바뀐 항목 이름 목록을 돌려준다."""
+    changed = []
+    if manual_day["matrix"]:
+        target["matrix"] = manual_day["matrix"]
+        changed.append("채권 표")
+    for k, v in manual_day["ref"].items():
+        target.setdefault("ref", {})[k] = v
+        changed.append(k)
+    return changed
+
+
 def write_excel(path, days, row_labels, generated_at, errors):
     wb = openpyxl.Workbook()
     wb.remove(wb.active)
@@ -324,6 +415,10 @@ def main():
                 errors.append(f"[{label}] 채권표: 직접 조회에 실패해 이전에 저장해 둔 값을 사용함")
     for day in results.values():
         merge_into_history(hist, day)
+    # 직접 입력한 값은 자동 수집 값보다 우선한다 (매 실행마다 다시 덮어써서 항상 유지됨)
+    manual = load_manual(errors)
+    for d, mday in manual.items():
+        apply_manual(hist.setdefault(d, {"matrix": None, "ref": {}}), mday)
     save_history(hist)
 
     # Term SOFR 는 공개 파일에 싣지 않고, 비밀번호로 잠근 private.json 에만 날짜별로 쌓는다
@@ -375,6 +470,10 @@ def main():
         public_days = copy.deepcopy(results)
         for k in public_days:
             public_days[k]["ref"]["Term SOFR"] = None
+            changed = apply_manual(public_days[k], manual.get(public_days[k]["date"], {"ref": {}, "matrix": None}))
+            if changed:
+                tag = {"prev": "전일", "prevprev": "전전일"}[k]
+                errors.append(f"[안내] {tag} 직접 입력 값 사용: {', '.join(changed)}")
 
     data = {
         "generated_at": generated_at,
