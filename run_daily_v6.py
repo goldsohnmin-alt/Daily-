@@ -354,22 +354,40 @@ def main():
         with open(OUT / "backfill_log.json", "w", encoding="utf-8") as f:
             json.dump({"generated_at": generated_at, "start": start_s, "end": end_s,
                        "processed": [d["date"] for d in results.values()], "errors": errors}, f, ensure_ascii=False)
+        # 채우기 뒤에도 화면 상단(data.json)과 내려받는 엑셀이 옛 결과로 남지 않도록,
+        # 방금 갱신한 날짜별 기록에서 전일/전전일을 다시 만든다.
+        public_days, page_errors = {}, []
+        for key, label, d in (("prev", "전일", prev), ("prevprev", "전전일", prevprev)):
+            saved = hist.get(d.isoformat(), {})
+            ref = {k: saved.get("ref", {}).get(k) for k in REF_LABELS}
+            ref["Term SOFR"] = None
+            public_days[key] = {"date": d.isoformat(), "matrix": saved.get("matrix"), "ref": ref}
+            page_errors += [e for e in errors if e.startswith(f"[{d.isoformat()}]")]
+            missing = [k for k in PUBLIC_REF_LABELS if ref[k] is None]
+            if not saved.get("matrix"):
+                missing.insert(0, "채권시가평가수익률")
+            if missing:
+                page_errors.append(f"[{label}] 저장된 값 없음: {', '.join(missing)}")
+        page_errors += [e for e in errors if not e.startswith("[20")]  # 날짜 표시 없는 안내·전체 문구
+        page_errors.append(f"[안내] 밀린 날짜 채우기({start_s} ~ {end}) 결과로 다시 만든 화면입니다")
+        errors = page_errors
     else:
         public_days = copy.deepcopy(results)
         for k in public_days:
             public_days[k]["ref"]["Term SOFR"] = None
-        data = {
-            "generated_at": generated_at,
-            "today": today.isoformat(),
-            "maturities": MATURITIES,
-            "ref_labels": REF_LABELS,
-            "row_labels": row_labels,
-            "days": public_days,
-            "errors": errors,
-        }
-        with open(OUT / "data.json", "w", encoding="utf-8") as f:
-            json.dump(data, f, ensure_ascii=False)
-        write_excel(OUT / "daily_data.xlsx", public_days, row_labels, generated_at, errors)
+
+    data = {
+        "generated_at": generated_at,
+        "today": today.isoformat(),
+        "maturities": MATURITIES,
+        "ref_labels": REF_LABELS,
+        "row_labels": row_labels,
+        "days": public_days,
+        "errors": errors,
+    }
+    with open(OUT / "data.json", "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False)
+    write_excel(OUT / "daily_data.xlsx", public_days, row_labels, generated_at, errors)
 
     print(f"완료. 안내·실패 {len(errors)}건")
     for e in errors:
