@@ -159,6 +159,8 @@ HISTORY_PATH = OUT / "history.json"      # 날짜별 공개 데이터(채권 표
 PRIVATE_PATH = OUT / "private.json"      # 날짜별 Term SOFR (비밀번호로 잠금)
 HISTORY_KEEP = 1000
 PUBLIC_REF_LABELS = [l for l in REF_LABELS if l != "Term SOFR"]
+# 채권 표가 통째로 없는 과거 날짜용: 표의 몇 칸만 직접 넣을 때 쓰는 이름 (history 의 "pts" 에 담는다)
+POINT_LABELS = ["회사채(AA-) 3Y", "회사채(AAA) 3Y", "국채(10Y)", "국채(5Y)", "국채(3Y)"]
 PBKDF2_ITER = 200_000
 
 
@@ -248,7 +250,7 @@ def load_manual(errors):
     manual = {}
 
     def entry(d):
-        return manual.setdefault(d, {"ref": {}, "matrix": None})
+        return manual.setdefault(d, {"ref": {}, "pts": {}, "matrix": None})
 
     if MANUAL_CSV.exists():
         try:
@@ -268,12 +270,12 @@ def load_manual(errors):
                 label = parts[1]
                 if label == "Term SOFR":
                     raise ValueError("Term SOFR는 공개 저장소에 올라가므로 여기에 적지 마세요")
-                if label not in PUBLIC_REF_LABELS:
-                    raise ValueError(f"항목 이름은 {', '.join(PUBLIC_REF_LABELS)} 중 하나")
+                if label not in PUBLIC_REF_LABELS + POINT_LABELS:
+                    raise ValueError(f"항목 이름은 {', '.join(PUBLIC_REF_LABELS + POINT_LABELS)} 중 하나")
                 v = _manual_number(parts[2])
                 if v is None:
                     raise ValueError("값이 비어 있음")
-                entry(d)["ref"][label] = v
+                entry(d)["pts" if label in POINT_LABELS else "ref"][label] = v
             except ValueError as e:
                 errors.append(f"[수동입력] {MANUAL_CSV} {n}번째 줄 건너뜀: {e} ({line[:60]})")
 
@@ -307,6 +309,9 @@ def apply_manual(target, manual_day):
         changed.append("채권 표")
     for k, v in manual_day["ref"].items():
         target.setdefault("ref", {})[k] = v
+        changed.append(k)
+    for k, v in manual_day.get("pts", {}).items():
+        target.setdefault("pts", {})[k] = v  # 채권 표와 별도로 저장(표가 없는 날도 기간 표에 나오도록)
         changed.append(k)
     return changed
 
@@ -470,7 +475,7 @@ def main():
         public_days = copy.deepcopy(results)
         for k in public_days:
             public_days[k]["ref"]["Term SOFR"] = None
-            changed = apply_manual(public_days[k], manual.get(public_days[k]["date"], {"ref": {}, "matrix": None}))
+            changed = apply_manual(public_days[k], manual.get(public_days[k]["date"], {"ref": {}, "pts": {}, "matrix": None}))
             if changed:
                 tag = {"prev": "전일", "prevprev": "전전일"}[k]
                 errors.append(f"[안내] {tag} 직접 입력 값 사용: {', '.join(changed)}")

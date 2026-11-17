@@ -16,6 +16,8 @@
 - `manual_data.csv`, `manual_bond/YYYY-MM-DD.txt` : 사용자가 직접 넣는 과거 자료·정정 값.
   매 실행마다 `load_manual`/`apply_manual`(run_daily_v6.py)이 history.json 에 덮어쓴다(자동 수집보다 우선).
   잘못된 줄은 건너뛰고 `[수동입력]` 문구를 errors 에 남긴다. Term SOFR는 공개라서 받지 않는다.
+  채권 표가 없는 과거 날짜용으로 회사채(AA-/AAA) 3Y·국채 10Y/5Y/3Y도 받으며, history 의 `pts`에 담아
+  `index.html` 기간 표가 채권 표보다 우선해 쓴다. 2026-01-02~11-16 값은 원본 엑셀(그래프1)에서 옮긴 것.
 - `docs/index.html` : 사이트 화면. `data.json`, `history.json`, `private.json`(선택)을 읽는다.
 
 ## 생성되는 파일 (`docs/`, 워크플로가 자동 커밋)

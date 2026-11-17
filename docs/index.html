@@ -125,12 +125,13 @@ function refVal(date, label) {
 }
 function rowFor(date) {                           // 그래프1 A~O 한 줄
   const e = H[date] || {}, m = e.matrix;
-  const g = (i, j) => (m && m[i] && isNum(m[i][j])) ? m[i][j] : '';
+  const p = e.pts || {};                          // 직접 넣은 칸(채권 표가 없는 과거 날짜)이 있으면 우선
+  const g = (i, j, lab) => isNum(p[lab]) ? p[lab] : (m && m[i] && isNum(m[i][j])) ? m[i][j] : '';
   const cp = refVal(date, 'CP(91일)'), cd = refVal(date, 'CD(91일)'), irs = refVal(date, 'IRS(3Y)'), crs = refVal(date, 'CRS(3년)');
   const ts = refVal(date, 'Term SOFR');
   const sub = (a, b) => (isNum(a) && isNum(b)) ? r5(a - b) : '';
   const v = x => isNum(x) ? x : '';
-  return [date, g(31,7), g(28,7), g(0,11), g(0,9), g(0,7), v(cp), v(cd), sub(irs, cd), v(irs), '', date, v(crs), sub(crs, ts), v(ts)];
+  return [date, g(31,7,'회사채(AA-) 3Y'), g(28,7,'회사채(AAA) 3Y'), g(0,11,'국채(10Y)'), g(0,9,'국채(5Y)'), g(0,7,'국채(3Y)'),v(cp), v(cd), sub(irs, cd), v(irs), '', date, v(crs), sub(crs, ts), v(ts)];
 }
 
 /* ---------- 복사 / 내려받기 ---------- */
