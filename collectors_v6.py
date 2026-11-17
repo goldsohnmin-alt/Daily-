@@ -644,14 +644,19 @@ def _cp_once(driver, query_date, alt):
     _verify_date_after_search(driver, _date_str(query_date))
     row = _find_in_frames(driver, [(By.XPATH, "//tr[td[contains(normalize-space(.),'CP(91일)')]]")], 20)
     cells = [td.text.strip() for td in row.find_elements(By.TAG_NAME, "td")]
-    # 열 순서: 종류명, 잔존기간, 오전, 오후, 전일대비, 전일, 연중최고, 연중최저 -> 끝에서 3번째가 '전일'
+    # 열 순서: 종류명, 잔존기간, 오전, 오후, 전일대비, 전일, 연중최고, 연중최저 -> 끝에서 5번째가 당일 '오후'
     if len(cells) < 6:
         raise RuntimeError(f"CP(91일) 행 모양이 이상함: {cells}")
-    return float(cells[-3].replace(",", ""))
+    val = cells[-5].replace(",", "")
+    if not val or val == "-":
+        raise RuntimeError(f"CP(91일) {query_date} 오후 값이 아직 없음: {cells}")
+    return float(val)
 
 
 def scrape_kofia_cp(driver, query_date):
-    """상단 '채권금리'(최종호가수익률)에서 query_date 로 조회 -> CP(91일)의 '전일' 값.
+    """상단 '채권금리'(최종호가수익률)에서 query_date(=대상 날짜) 로 조회 -> CP(91일)의 당일 '오후' 값.
+    다음 날짜로 조회해 '전일' 칸을 읽던 방식은 아침 실행 때 그날 자료(11:30/16:00 게시)가
+    아직 없어 표가 비므로 쓰지 않는다.
     실패하면 날짜 입력 방식을 바꿔 한 번 더 시도한다."""
     last = None
     for attempt in (1, 2):
@@ -854,10 +859,10 @@ def get_cd91(driver, target_date):
     ])
 
 
-def get_cp91(driver, query_date, target_date):
+def get_cp91(driver, target_date):
     return _chain("CP(91일)", [
         ("ECOS", lambda: ecos_cp91(target_date)),
-        ("KOFIA화면", lambda: scrape_kofia_cp(driver, query_date)),
+        ("KOFIA화면", lambda: scrape_kofia_cp(driver, target_date)),
     ])
 
 

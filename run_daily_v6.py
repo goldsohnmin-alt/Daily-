@@ -111,7 +111,7 @@ def save_debug(driver, dbg_id):
         print("debug 저장 실패:", e)
 
 
-def collect_day(driver, target, cp_query_date, errors, tag, dbg_prefix=None, quiet_sofr=False):
+def collect_day(driver, target, errors, tag, dbg_prefix=None, quiet_sofr=False):
     """하루치(전일 또는 전전일) 데이터를 수집. 실패 항목은 None 으로 두고 errors 에 기록."""
     ref = {k: None for k in REF_LABELS}
     matrix = None
@@ -134,7 +134,7 @@ def collect_day(driver, target, cp_query_date, errors, tag, dbg_prefix=None, qui
         else:
             errors.append(f"[{tag}] 채권시가평가수익률: 표 크기가 예상(43x16)과 다름 {df.shape}")
 
-    ref["CP(91일)"] = run("CP(91일)", lambda: get_cp91(driver, cp_query_date, target), "cp")
+    ref["CP(91일)"] = run("CP(91일)", lambda: get_cp91(driver, target), "cp")
     ref["CD(91일)"] = run("CD(91일)", lambda: get_cd91(driver, target), "cd")
 
     irs_crs = run("IRS/CRS", lambda: scrape_kmb_irs_crs(driver, target), "kmb")
@@ -196,13 +196,6 @@ def decrypt_json(blob, password):
     from cryptography.hazmat.primitives.ciphers.aead import AESGCM
     salt, iv, ct = (base64.b64decode(blob[k]) for k in ("salt", "iv", "ct"))
     return json.loads(AESGCM(_derive_key(password, salt)).decrypt(iv, ct, None).decode("utf-8"))
-
-
-def next_business_day(d, holidays):
-    d += dt.timedelta(days=1)
-    while d.weekday() >= 5 or d in holidays:
-        d += dt.timedelta(days=1)
-    return d
 
 
 def business_days(start, end, holidays):
@@ -291,10 +284,10 @@ def main():
         if len(targets) > 25:
             errors.append(f"[안내] 한 번에 최대 25영업일까지만 채워서 {targets[-25]} ~ {targets[-1]} 만 처리함")
             targets = targets[-25:]
-        plan = [(d.isoformat(), d, next_business_day(d, holidays)) for d in targets]
+        plan = [(d.isoformat(), d) for d in targets]
         print(f"채우기 모드: {len(plan)}영업일 ({start_s} ~ {end})")
     else:
-        plan = [("prev", prev, today), ("prevprev", prevprev, prev)]
+        plan = [("prev", prev), ("prevprev", prevprev)]
 
     row_labels = json.load(open("row_labels.json", encoding="utf-8"))
 
@@ -305,13 +298,13 @@ def main():
         errors.append(f"브라우저 시작 실패: {str(e)[:200]}")
 
     results = {}
-    for key, target, cp_q in plan:
+    for key, target in plan:
         tag = {"prev": "전일", "prevprev": "전전일"}.get(key, key)
         if driver is None:
             results[key] = {"date": target.isoformat(), "matrix": None,
                             "ref": {k: None for k in REF_LABELS}}
             continue
-        results[key] = collect_day(driver, target, cp_q, errors, tag,
+        results[key] = collect_day(driver, target, errors, tag,
                                    dbg_prefix={"prev": "prev", "prevprev": "prevprev"}.get(key),
                                    quiet_sofr=backfill)
     if driver:
