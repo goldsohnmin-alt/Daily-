@@ -9,8 +9,8 @@ page_source_length: 645
 <link href="/images/favicon.ico" rel="shortcut icon">
 </head>
 <frameset rows="*,100%" frameborder="no" border="0" framespacing="0">
-   <frame name="fraAMAKTop" src="#" scrolling="no" marginheight="0" marginwidth="0" noresize="" cd_frame_id_="72fd281c6b397d5d162477334d41234d">
-   <frame name="fraAMAKMain" src="/html/MAIN.html" scrolling="auto" cd_frame_id_="5b9e47c4d4d8f33e0fbf8c6068272edf">
+   <frame name="fraAMAKTop" src="#" scrolling="no" marginheight="0" marginwidth="0" noresize="" cd_frame_id_="f049d44f9401e2040c3614ef2e8f3b65">
+   <frame name="fraAMAKMain" src="/html/MAIN.html" scrolling="auto" cd_frame_id_="61fa0203c2c2de2391008658a244c882">
    <noframes>
    <body>
    <p> This page uses frames, but your browser doesn't support them. 
@@ -28,8 +28,8 @@ page_source_length: 645
 <link href="/images/favicon.ico" rel="shortcut icon">
 </head>
 <frameset rows="*,100%" frameborder="no" border="0" framespacing="0">
-   <frame name="fraAMAKTop" src="#" scrolling="no" marginheight="0" marginwidth="0" noresize="" cd_frame_id_="4a29630d5de32df29ba8463fd8c435d3">
-   <frame name="fraAMAKMain" src="/html/MAIN.html" scrolling="auto" cd_frame_id_="fc6afab9cfddec42f4399352207ce151">
+   <frame name="fraAMAKTop" src="#" scrolling="no" marginheight="0" marginwidth="0" noresize="" cd_frame_id_="974180464eece0a0cf4ed70f6865293d">
+   <frame name="fraAMAKMain" src="/html/MAIN.html" scrolling="auto" cd_frame_id_="b003280e8f7eff88805f7f329f04417a">
    <noframes>
    <body>
    <p> This page uses frames, but your browser doesn't support them. 
@@ -42,7 +42,7 @@ page_source_length: 645
 --- 소스 앞부분 ---
 <html><head></head><body marginwidth="0" marginheight="0"></body></html>
 
-===== 프레임 0.1 | 길이=297265 =====
+===== 프레임 0.1 | 길이=300215 =====
   A | id=textbox1 | name= | class=w2textbox  | type= | value= | title= | alt= | onclick= | text=메뉴바로가기 | checked=undefined
   A | id=textbox2 | name= | class=w2textbox  | type= | value= | title= | alt= | onclick= | text=본문바로가기 | checked=undefined
   A | id=mgroup14 | name= | class=w2group  | type= | value= | title= | alt= | onclick= | text= | checked=undefined
@@ -473,8 +473,8 @@ page_source_length: 645
       if (urlPrefix != 'www'  && !useTabControl ) {
     
 
-===== 프레임 1.0.0 | 길이=236414 =====
-  INPUT | id=srchDt_input | name=srchDt_input | class=w2inputCalendar_input w100 h17 | type=text | value=2026-11-17 | title= | alt= | onclick= | text= | checked=false
+===== 프레임 1.0.0 | 길이=235858 =====
+  INPUT | id=srchDt_input | name=srchDt_input | class=w2inputCalendar_input w100 h17 | type=text | value=2026-11-16 | title= | alt= | onclick= | text= | checked=false
   IMG | id=srchDt_img | name= | class=w2inputCalendar_img | type= | value= | title= | alt=open | onclick= | text= | checked=undefined
   A | id=group83 | name= | class=w2group fr mgt7 mgr10 | type= | value= | title=조회 | alt= | onclick= | text= | checked=undefined
   IMG | id=image3 | name= | class=w2image  | type= | value= | title= | alt=조회 | onclick= | text= | checked=undefined
@@ -491,6 +491,24 @@ page_source_length: 645
   TH | id=grdMain_column55 | name=undefined | class=gridHeaderTDDefault gridHeaderTDDefault_ | type= | value= | title= | alt= | onclick= | text=연중최저 | checked=undefined
   TH | id=grdMain_column68 | name=undefined | class=gridHeaderTDDefault gridHeaderTDDefault_ | type= | value= | title= | alt= | onclick= | text=오전 | checked=undefined
   TH | id=grdMain_column67 | name=undefined | class=gridHeaderTDDefault gridHeaderTDDefault_ | type= | value= | title= | alt= | onclick= | text=오후 | checked=undefined
+  A | id= | name= | class= | type= | value= | title= | alt= | onclick=event.returnValue=false; return false; | text=국고채권(1년) | checked=undefined
+  A | id= | name= | class= | type= | value= | title= | alt= | onclick=event.returnValue=false; return false; | text=국고채권(2년) | checked=undefined
+  A | id= | name= | class= | type= | value= | title= | alt= | onclick=event.returnValue=false; return false; | text=국고채권(3년) | checked=undefined
+  A | id= | name= | class= | type= | value= | title= | alt= | onclick=event.returnValue=false; return false; | text=국고채권(5년) | checked=undefined
+  A | id= | name= | class= | type= | value= | title= | alt= | onclick=event.returnValue=false; return false; | text=국고채권(10년) | checked=undefined
+  A | id= | name= | class= | type= | value= | title= | alt= | onclick=event.returnValue=false; return false; | text=국고채권(20년) | checked=undefined
+  A | id= | name= | class= | type= | value= | title= | alt= | onclick=event.returnValue=false; return false; | text=국고채권(30년) | checked=undefined
+  A | id= | name= | class= | type= | value= | title= | alt= | onclick=event.returnValue=false; return false; | text=국고채권(50년) | checked=undefined
+  A | id= | name= | class= | type= | value= | title= | alt= | onclick=event.returnValue=false; return false; | text=국민주택1종(5년) | checked=undefined
+  A | id= | name= | class= | type= | value= | title= | alt= | onclick=event.returnValue=false; return false; | text=통안증권(91일) | checked=undefined
+  A | id= | name= | class= | type= | value= | title= | alt= | onclick=event.returnValue=false; return false; | text=통안증권(1년) | checked=undefined
+  A | id= | name= | class= | type= | value= | title= | alt= | onclick=event.returnValue=false; return false; | text=통안증권(2년) | checked=undefined
+  A | id= | name= | class= | type= | value= | title= | alt= | onclick=event.returnValue=false; return false; | text=한전채(3년) | checked=undefined
+  A | id= | name= | class= | type= | value= | title= | alt= | onclick=event.returnValue=false; return false; | text=회사채(무보증3년)AA- | checked=undefined
+  A | id= | name= | class= | type= | value= | title= | alt= | onclick=event.returnValue=false; return false; | text=산금채(1년) | checked=undefined
+  A | id= | name= | class= | type= | value= | title= | alt= | onclick=event.returnValue=false; return false; | text=회사채(무보증3년)BBB- | checked=undefined
+  A | id= | name= | class= | type= | value= | title= | alt= | onclick=event.returnValue=false; return false; | text=CD수익률(91일) | checked=undefined
+  A | id= | name= | class= | type= | value= | title= | alt= | onclick=event.returnValue=false; return false; | text=CP(91일) | checked=undefined
 --- 소스 앞부분 ---
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms" lang="ko" xml:lang="ko"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
