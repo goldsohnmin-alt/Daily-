@@ -249,11 +249,18 @@ def _raise_if_date_popup():
             raise RuntimeError("날짜 형식 안내창이 떴음: " + " ".join(t.split())[:90])
 
 
+POPUP_XPATHS = (
+    "//*[@id='popup_ok']",
+    "//input[normalize-space(@value)='Yes' or normalize-space(@value)='확인' or normalize-space(@value)='OK']",
+    "//*[self::button or self::span or self::a or self::div][normalize-space(text())='Yes' or normalize-space(text())='확인']",
+)
+
+
 def _dismiss_popups(driver):
-    """'Yes'/'확인' 버튼이 있는 안내창이 떠 있으면 문구를 기록하고 닫는다 (없으면 아무 일도 안 함)."""
+    """'Yes'/'확인' 버튼이 있는 안내창이 떠 있으면 문구를 기록하고 닫는다 (없으면 아무 일도 안 함).
+    이 사이트의 버튼은 value=' Yes '(앞뒤 공백)이고 id='popup_ok' 이다."""
     def probe(d):
-        for xp in ("//input[@value='Yes' or @value='확인' or @value='OK']",
-                   "//*[self::button or self::span or self::a or self::div][normalize-space(text())='Yes' or normalize-space(text())='확인']"):
+        for xp in POPUP_XPATHS:
             try:
                 for el in d.find_elements(By.XPATH, xp):
                     if el.is_displayed():
@@ -261,7 +268,7 @@ def _dismiss_popups(driver):
             except WebDriverException:
                 pass
         return None
-    for _ in range(3):
+    for _ in range(4):
         driver.switch_to.default_content()
         el = _walk_frames(driver, probe)
         if not el:
@@ -384,6 +391,19 @@ def _diag_search_capture(driver):
 
 
 # ---------- 날짜 칸 조작: (1) 타이핑 (2) 천천히 타이핑 (3) 달력 버튼 ----------
+_JS_WS_SET = r"""
+var el = arguments[0], v = arguments[1];
+var id = (el.id || '').replace(/_input$/, '');
+var comp = null;
+try { comp = WebSquare.util.getComponentById(id); } catch (e) {}
+if (!comp) { try { comp = $p.getComponentById(id); } catch (e) {} }
+if (!comp) { try { comp = $p.getComponentById('mf_wfm_contents_' + id); } catch (e) {} }
+if (!comp) return 'nocomp';
+try { comp.setValue(v); } catch (e) { return 'seterr:' + e; }
+try { return String(comp.getValue()); } catch (e) { return 'ok'; }
+"""
+
+
 def _calendar_pick(driver, el, value):
     """입력칸 옆의 달력 버튼을 눌러 연/월/일을 고른다(구조를 모르는 상태의 최선 시도 + 진단 기록)."""
     y, m, d = (int(x) for x in value.split("-"))
@@ -425,55 +445,76 @@ def _calendar_pick(driver, el, value):
 
 def _set_first_date(driver, value, alt=False):
     """조회일 칸을 value(YYYY-MM-DD)로 맞춘다. 사이트가 날짜를 정상 형식으로 받아들인 경우에만 성공으로 본다
-    (다른 날짜 값이 조용히 섞이는 걸 막기 위해). 순서: 타이핑 -> 천천히 타이핑 -> 달력 버튼."""
-    el = _wait_probe(driver, _date_probe, 25, "날짜 입력칸")
+    (다른 날짜 값이 조용히 섞이는 걸 막기 위해). 순서: 부품 지정 -> 타이핑 -> 천천히 타이핑 -> 달력 버튼.
+    달력을 건드리면 칸이 새로 그려져 이전 참조가 사라질 수 있어, 읽을 때마다 필요하면 다시 찾는다."""
     digits = value.replace("-", "")
-    if _read_val(driver, el) == value:
-        return
-    _dump_date_input(driver, el)
+    state = {"el": _wait_probe(driver, _date_probe, 25, "날짜 입력칸")}
     tried = []
 
-    def ok():
-        return _read_val(driver, el) == value
+    def get_el():
+        try:
+            state["el"].is_displayed()
+        except WebDriverException:
+            state["el"] = _wait_probe(driver, _date_probe, 8, "날짜 입력칸")
+        return state["el"]
 
-    try:  # (1) 전체 선택 후 숫자 8자리 타이핑
-        el.click()
-        el.send_keys(Keys.CONTROL, "a")
-        el.send_keys(digits)
-        el.send_keys(Keys.TAB)
-        driver.execute_script("arguments[0].blur();", el)
-    except WebDriverException:
-        pass
-    time.sleep(0.8)
-    if ok():
+    def cur():
+        for _ in range(3):
+            try:
+                return _read_val(driver, get_el())
+            except (WebDriverException, TimeoutException):
+                time.sleep(0.5)
+        return ""
+
+    if cur() == value:
         return
-    tried.append("타이핑:" + _read_val(driver, el))
+    try:
+        _dump_date_input(driver, get_el())
+    except (WebDriverException, TimeoutException):
+        pass
 
-    try:  # (2) 지우고 천천히 타이핑 + 엔터
-        el.click()
-        el.send_keys(Keys.CONTROL, "a")
-        el.send_keys(Keys.BACKSPACE)
+    def attempt(name, fn):
+        try:
+            fn()
+        except (WebDriverException, TimeoutException, RuntimeError) as e:
+            tried.append(f"{name}:{type(e).__name__}:{str(e)[:30]}")
+        time.sleep(0.8)
+        if cur() == value:
+            return True
+        tried.append(f"{name}→'{cur()}'")
+        return False
+
+    def m_component():
+        res = driver.execute_script(_JS_WS_SET, get_el(), digits)
+        if res == "nocomp" or str(res).startswith("seterr"):
+            tried.append(f"부품:{res}")
+
+    def m_type():
+        e = get_el()
+        e.click()
+        e.send_keys(Keys.CONTROL, "a")
+        e.send_keys(digits)
+        e.send_keys(Keys.TAB)
+        driver.execute_script("arguments[0].blur();", get_el())
+
+    def m_type_slow():
+        e = get_el()
+        e.click()
+        e.send_keys(Keys.CONTROL, "a")
+        e.send_keys(Keys.BACKSPACE)
         for ch in digits:
-            el.send_keys(ch)
+            get_el().send_keys(ch)
             time.sleep(0.15)
-        el.send_keys(Keys.ENTER)
-        el.send_keys(Keys.TAB)
-    except WebDriverException:
-        pass
-    time.sleep(0.8)
-    if ok():
-        return
-    tried.append("천천히:" + _read_val(driver, el))
+        get_el().send_keys(Keys.ENTER)
+        get_el().send_keys(Keys.TAB)
 
-    try:  # (3) 달력 버튼
-        _calendar_pick(driver, el, value)
-        el = _wait_probe(driver, _date_probe, 8, "날짜 입력칸")
-    except Exception as e:  # noqa: BLE001
-        tried.append("달력:" + str(e)[:40])
-    if ok():
-        return
-    cur = _read_val(driver, el)
-    raise RuntimeError(f"날짜 입력 실패(칸에 남은 값 '{cur}', 원하는 값 {value}; 시도 {tried})")
+    def m_calendar():
+        _calendar_pick(driver, get_el(), value)
+
+    for name, fn in (("부품지정", m_component), ("타이핑", m_type), ("천천히", m_type_slow), ("달력", m_calendar)):
+        if attempt(name, fn):
+            return
+    raise RuntimeError(f"날짜 입력 실패(칸에 남은 값 '{cur()}', 원하는 값 {value}; 시도 {tried})")
 
 
 def _verify_date_after_search(driver, value):
@@ -561,7 +602,7 @@ def _bond_once(driver, target_date, alt):
     _dismiss_popups(driver)
     try:
         _set_first_date(driver, _date_str(target_date), alt=alt)
-    except RuntimeError:
+    except (RuntimeError, WebDriverException, TimeoutException):
         _diag_search_capture(driver)  # 다음 수정을 위해 기본 날짜로 조회한 요청을 기록
         raise
     n = _check_all_boxes(driver)
@@ -1015,6 +1056,21 @@ def _gr_rows(driver=None):
         text = BeautifulSoup(resp.text, "lxml").get_text(" ", strip=True)
     except Exception as e:  # noqa: BLE001
         err = e
+    if text is None or not _parse_gr(text):
+        # 이 사이트는 인증서가 정상이 아니어서(체인 불완전/오류) 검증이 막힌다. 공개된 숫자를 읽기만 하므로
+        # 인증서 검증 없이 한 번 더 시도한다(값은 사람이 붙여넣을 때 눈으로 확인하는 전제).
+        try:
+            import urllib3
+            urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+            r2 = requests.get(GLOBAL_RATES_URL, headers={
+                "User-Agent": NAVER_HEADERS["User-Agent"], "Accept-Language": "en-US,en;q=0.9"},
+                timeout=25, verify=False)
+            if r2.status_code == 200:
+                t2 = BeautifulSoup(r2.text, "lxml").get_text(" ", strip=True)
+                if _parse_gr(t2):
+                    text = t2
+        except Exception as e2:  # noqa: BLE001
+            err = e2
     if text is None or not _parse_gr(text):
         drv = driver or _LAST_DRIVER
         if drv is None:
