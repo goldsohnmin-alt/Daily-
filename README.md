@@ -4,12 +4,29 @@
 개인 PC는 꺼져 있어도 됩니다.
 
 ## 구성 (파일 설명)
-- `.github/workflows/daily.yml` : 매일 자동 실행 설정
-- `build_site.py` : 수집 실행 → `docs/data.json`, `docs/daily_data.xlsx` 생성
-- `scrapers.py` : 사이트별 수집 로직 (KOFIA, 한국자금중개, 네이버금융, CME)
+- `.github/workflows/daily.yml` : 매일 자동 실행 설정 (월~금 7:30 한국시간)
+- `run_daily_v6.py` : 수집 실행 → `docs/` 아래 파일 생성
+- `collectors_v6.py` : 사이트별 수집 로직
+  (금융투자협회 KOFIA, 한국자금중개, 네이버금융, global-rates.com의 Term SOFR,
+  인증키가 있으면 한국은행 ECOS도 대체 경로로 사용)
 - `holidays.csv` : 공휴일 목록 (연말에 다음 해 날짜를 추가해 주세요)
 - `row_labels.json` : 채권 표 43행의 종류/종류명/신용등급 이름
 - `docs/index.html` : 사이트 화면
+
+자동으로 만들어지는 파일 (`docs/` 안, 직접 고치지 마세요)
+- `data.json` : 가장 최근 수집 결과와 실패 내역
+- `history.json` : 날짜별로 쌓이는 공개 데이터
+- `private.json` : 날짜별 Term SOFR (비밀번호로 잠김)
+- `daily_data.xlsx` : 내려받는 엑셀 파일
+- `backfill_log.json` : 밀린 날짜 채우기 실행 기록
+- `debug/` : 수집에 실패한 순간의 화면 캡처와 페이지 내용
+
+## 설정값 (Secrets)
+`Settings` → `Secrets and variables` → `Actions` → `New repository secret` 에서 등록합니다.
+- `XLSX_PASSWORD` : Term SOFR 값을 잠그는 비밀번호. 없으면 Term SOFR는 저장하지 않습니다.
+  **한 번 정하면 바꾸지 마세요.** 바꾸면 예전 기록을 지키려고 새 값 저장을 멈춥니다.
+- `ECOS_API_KEY` (선택) : 한국은행 ECOS 무료 인증키. 있으면 CD·CP·KOSPI·환율을
+  다른 곳에서 못 가져왔을 때 ECOS에서 대신 가져옵니다.
 
 ## 설치 순서 (최초 1회, 약 15분)
 
@@ -34,9 +51,17 @@
    (`전전일`도 동일). 노란색 칸 / "미수집"은 직접 확인해서 채워 주세요.
 4. `민평 금리`!A1 날짜 갱신, `그래프1` 값 붙여넣기는 기존처럼 진행
 
+## 밀린 날짜 채우기
+자동 실행이 며칠 멈췄거나 빠진 날이 있으면:
+1. `Actions` 탭 → 왼쪽 `daily-market-data` → `Run workflow`
+2. 시작일(예 `2026-11-03`)과 종료일을 입력 (종료일을 비우면 전 영업일까지)
+3. 날짜를 비워 두고 실행하면 평소처럼 전일·전전일만 수집합니다
+4. 실행 결과는 `docs/backfill_log.json` 에 남습니다
+
 ## 문제가 생기면
 - 사이트 상단 빨간 박스에 **수집에 실패한 항목과 사유**가 표시됩니다. 그 문구를 그대로 복사해서 알려 주세요.
 - 자세한 로그: `Actions` 탭 → 해당 실행 클릭 → `Collect data and build site files` 펼치기
+- 실패한 순간의 화면 캡처(png)와 페이지 내용(txt)이 `docs/debug/` 에 저장됩니다.
 - 예약 실행은 GitHub 사정으로 몇 분~1시간 늦어질 수 있고, 저장소에 오래 활동이 없으면 멈출 수 있습니다.
   멈췄다면 `Actions` 탭에서 다시 켜 주세요.
 - 이 저장소와 사이트는 누구나 볼 수 있습니다. 회사 서식이나 내부 정보는 올리지 마세요.
