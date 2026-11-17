@@ -9,8 +9,8 @@ page_source_length: 645
 <link href="/images/favicon.ico" rel="shortcut icon">
 </head>
 <frameset rows="*,100%" frameborder="no" border="0" framespacing="0">
-   <frame name="fraAMAKTop" src="#" scrolling="no" marginheight="0" marginwidth="0" noresize="" cd_frame_id_="c639c315e2d3c187627e32a5488fa56e">
-   <frame name="fraAMAKMain" src="/html/MAIN.html" scrolling="auto" cd_frame_id_="be852913422d86b20840d3c75c54b36f">
+   <frame name="fraAMAKTop" src="#" scrolling="no" marginheight="0" marginwidth="0" noresize="" cd_frame_id_="72fd281c6b397d5d162477334d41234d">
+   <frame name="fraAMAKMain" src="/html/MAIN.html" scrolling="auto" cd_frame_id_="5b9e47c4d4d8f33e0fbf8c6068272edf">
    <noframes>
    <body>
    <p> This page uses frames, but your browser doesn't support them. 
@@ -28,8 +28,8 @@ page_source_length: 645
 <link href="/images/favicon.ico" rel="shortcut icon">
 </head>
 <frameset rows="*,100%" frameborder="no" border="0" framespacing="0">
-   <frame name="fraAMAKTop" src="#" scrolling="no" marginheight="0" marginwidth="0" noresize="" cd_frame_id_="abf34353859f79ae80e9b2dac78ed66f">
-   <frame name="fraAMAKMain" src="/html/MAIN.html" scrolling="auto" cd_frame_id_="0eb430051121e80f43777e602044b75f">
+   <frame name="fraAMAKTop" src="#" scrolling="no" marginheight="0" marginwidth="0" noresize="" cd_frame_id_="4a29630d5de32df29ba8463fd8c435d3">
+   <frame name="fraAMAKMain" src="/html/MAIN.html" scrolling="auto" cd_frame_id_="fc6afab9cfddec42f4399352207ce151">
    <noframes>
    <body>
    <p> This page uses frames, but your browser doesn't support them. 
@@ -42,7 +42,7 @@ page_source_length: 645
 --- 소스 앞부분 ---
 <html><head></head><body marginwidth="0" marginheight="0"></body></html>
 
-===== 프레임 0.1 | 길이=273959 =====
+===== 프레임 0.1 | 길이=297265 =====
   A | id=textbox1 | name= | class=w2textbox  | type= | value= | title= | alt= | onclick= | text=메뉴바로가기 | checked=undefined
   A | id=textbox2 | name= | class=w2textbox  | type= | value= | title= | alt= | onclick= | text=본문바로가기 | checked=undefined
   A | id=mgroup14 | name= | class=w2group  | type= | value= | title= | alt= | onclick= | text= | checked=undefined
