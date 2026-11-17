@@ -669,13 +669,32 @@ def scrape_kofia_cp(driver, query_date):
     raise last
 
 
+def _set_date_by_id(driver, el_id, value):
+    """id 로 찾은 날짜 칸에 value(YYYY-MM-DD)를 타이핑하고, 실제로 들어갔는지 다시 읽어 확인한다."""
+    digits = value.replace("-", "")
+    got = ""
+    for _ in range(3):
+        el = _find_in_frames(driver, [(By.ID, el_id)], 20)
+        _click(driver, el)
+        el.send_keys(Keys.CONTROL, "a")
+        el.send_keys(digits)
+        el.send_keys(Keys.TAB)
+        time.sleep(0.7)
+        got = _read_val(driver, el)
+        if got.replace("-", "").replace(".", "").replace("/", "") == digits:
+            return
+    raise RuntimeError(f"조회기간 날짜 입력 실패({el_id}: 넣은 값 {value}, 현재 {got!r})")
+
+
 def scrape_kofia_cd(driver, target_date):
-    """상단 'CD수익률' -> 일자별,기간별 CD수익률 표에서 target_date 행의 CD수익률."""
+    """상단 'CD수익률' -> 일자별,기간별 CD수익률 표에서 target_date 행의 CD수익률.
+    표는 조회기간 끝에서부터 20줄만 보여 주므로, 끝 날짜를 target_date 로 맞춘 뒤 조회한다
+    (그래야 20영업일보다 오래된 날짜도 맨 위에 나온다)."""
     _kofia_goto(driver, "CD수익률", "일자별,기간별 CD수익률")
-    try:
-        _press_search(driver)
-    except TimeoutException:
-        pass
+    # 시작일 기본값은 1년 전이라, 1년보다 오래된 날짜도 되도록 시작일도 한 달 전으로 맞춘다
+    _set_date_by_id(driver, "startDtDD_input", _date_str(target_date - dt.timedelta(days=30)))
+    _set_date_by_id(driver, "endDtDD_input", _date_str(target_date))
+    _press_search(driver)
     _find_in_frames(driver, [(By.XPATH, "//th[contains(.,'거래일')]")], 20)
     df = None
     for t in pd.read_html(StringIO(driver.page_source)):
@@ -756,8 +775,9 @@ def _kmb_excel_value(target_date, dtype, tenor="3Y"):
         if tenor not in t.columns:
             continue
         first = t.columns[0]
+        # 엑셀의 전송일은 '26/10/01'(두 자리 연도)로 오고, 날짜형으로 읽히면 '2026-10-01 00:00:00'이 된다
         digits = t[first].astype(str).str.replace(r"\D", "", regex=True)
-        row = t[digits == want]
+        row = t[(digits == want) | (digits == want[2:]) | (digits.str[:8] == want)]
         if not row.empty:
             return float(row.iloc[0][tenor])
     raise RuntimeError(f"엑셀 주소 표에 {target_date} 행이 없음")
