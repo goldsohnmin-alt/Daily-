@@ -9,6 +9,10 @@
   (정시·30분은 GitHub 예약이 몰려 몇 시간씩 밀려서 피함).
   앞 실행이 정상으로 끝났으면 뒤 예약 실행은 `run_daily_v6.py`가 바로 끝낸다(오류가 있었으면 다시 수집).
   수동 실행 시 `start_date`/`end_date`를 넣으면 밀린 날짜를 채운다(backfill).
+- `pc_run.py`, `run_pc.bat` : PC 자동 실행. GitHub 예약이 늦을 때 대비해 윈도우 작업 스케줄러
+  ("daily-site PC run", 평일 07:00 + 로그인 5분 뒤)가 이 PC에서 수집해 `docs/`만 커밋·push 한다.
+  주말·공휴일은 실행 안 함, 오늘 이미 정상이면 건너뜀(`SKIP_IF_DONE=1`), GitHub 실행 중이면 기다림.
+  Term SOFR용 `XLSX_PASSWORD`는 윈도우 사용자 환경 변수에서 읽는다. 기록은 `output\pc_run.log`(커밋 안 함).
 - `run_daily_v6.py` : 진입점. 수집 → `docs/` 파일 생성. 워크플로가 이 파일을 직접 실행한다.
 - `collectors_v6.py` : 사이트별 수집 로직(Selenium + requests/pandas/BeautifulSoup).
   KOFIA 채권 금리표(43행×16열)·CP·CD, 한국자금중개 IRS/CRS, 네이버금융 KOSPI·환율·다우, Term SOFR(global-rates.com, CME는 서버 접속을 막아서 사용하지 않음).

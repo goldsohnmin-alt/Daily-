@@ -384,7 +384,9 @@ def main():
 
     # 예약 실행은 GitHub 사정으로 늦거나 빠질 수 있어 아침에 여러 번 걸어 둔다.
     # 오늘 이미 전일 기준으로 문제없이 끝났으면 뒤의 예약 실행은 아무것도 바꾸지 않고 끝낸다.
-    if not backfill and os.environ.get("GITHUB_EVENT_NAME") == "schedule":
+    # PC 자동 실행(pc_run.py)은 SKIP_IF_DONE=1 로 같은 판단을 쓴다.
+    if not backfill and (os.environ.get("GITHUB_EVENT_NAME") == "schedule"
+                         or os.environ.get("SKIP_IF_DONE") == "1"):
         last = load_json(OUT / "data.json", {})
         problems = [e for e in last.get("errors", []) if not e.startswith("[안내]")]
         if (last.get("today") == today.isoformat()
