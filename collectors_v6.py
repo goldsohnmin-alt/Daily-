@@ -1118,12 +1118,23 @@ def _gr_rows(driver=None):
     return rows
 
 
+class TermSofrNotYet(RuntimeError):
+    """global-rates 에 그 날짜 값이 아직 올라오지 않음(고장이 아니라 시간 문제)."""
+
+
 def scrape_term_sofr_gr(target_date, driver=None):
     """(값, 안내문구 또는 None) 반환. 이 페이지는 최근 5영업일 정도만 보여 주므로 그보다 오래된 날짜는 실패한다.
-    미국 휴일 등으로 그 날짜가 없으면 5일 이내 가장 가까운 이전 날짜 값을 쓰고 안내문구를 돌려준다."""
+    미국 휴일로 그 날짜가 없으면(뒤 날짜 값은 있음) 5일 이내 가장 가까운 이전 날짜 값을 쓰고 안내문구를 돌려준다.
+    페이지에 아직 그 날짜까지 올라오지 않았으면 실패로 둔다."""
     rows = _gr_rows(driver)
     if target_date in rows:
         return rows[target_date], None
+    if rows and max(rows) < target_date:
+        # 페이지가 아직 그 날짜까지 올라오지 않음(미국 시간으로 아직 발표 전이거나 반영이 늦음).
+        # 앞 날짜 값을 대신 저장하면 틀린 값이 남으므로 실패로 두고 다음 실행에서 다시 받는다.
+        raise TermSofrNotYet(f"global-rates 에 아직 {target_date} 값이 올라오지 않아 비워 둠"
+                             f"(마지막 날짜 {max(rows)}) - 다음 날 '전전일'로 다시 받아 채움")
+    # 그 날짜 뒤의 값은 있는데 그 날짜만 없으면 미국 휴일 -> 가장 가까운 이전 날짜 값을 쓴다
     earlier = [d for d in rows if d <= target_date and (target_date - d).days <= 5]
     if earlier:
         d = max(earlier)

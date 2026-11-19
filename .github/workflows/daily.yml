@@ -1,7 +1,10 @@
 name: daily-market-data
 on:
   schedule:
-    - cron: "30 22 * * 0-4"
+    # 한국시간 월~금 06:00, 06:30, 07:00, 07:30, 08:00 (GitHub 예약 실행이 늦거나 빠질 때 대비).
+    # 앞 실행이 정상으로 끝났으면 뒤 실행은 run_daily_v6.py 가 바로 끝낸다.
+    - cron: "0,30 21-22 * * 0-4"
+    - cron: "0 23 * * 0-4"
   workflow_dispatch:
     inputs:
       start_date:

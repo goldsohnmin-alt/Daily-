@@ -32,6 +32,7 @@ from collectors_v6 import (
     scrape_naver_dow,
     scrape_naver_fx,
     scrape_term_sofr_gr,
+    TermSofrNotYet,
     make_driver,
 )
 
@@ -141,7 +142,15 @@ def collect_day(driver, target, errors, tag, dbg_prefix=None, quiet_sofr=False):
     if irs_crs:
         ref["IRS(3Y)"], ref["CRS(3년)"] = irs_crs
 
-    tsofr = run("Term SOFR", lambda: scrape_term_sofr_gr(target), browser=False, quiet=quiet_sofr)
+    def get_sofr():
+        try:
+            return scrape_term_sofr_gr(target)
+        except TermSofrNotYet as e:  # 아직 발표 전: 오류가 아니라 안내(파란 상자), 다시 시도할 필요 없음
+            if not quiet_sofr:
+                errors.append(f"[안내] [{tag}] Term SOFR: {e}")
+            return None
+
+    tsofr = run("Term SOFR", get_sofr, browser=False, quiet=quiet_sofr)
     if tsofr:
         ref["Term SOFR"], note = tsofr
         if note:
@@ -372,6 +381,19 @@ def main():
     end_s = os.environ.get("END_DATE", "").strip()
     backfill = bool(start_s)
     errors = []
+
+    # 예약 실행은 GitHub 사정으로 늦거나 빠질 수 있어 아침에 여러 번 걸어 둔다.
+    # 오늘 이미 전일 기준으로 문제없이 끝났으면 뒤의 예약 실행은 아무것도 바꾸지 않고 끝낸다.
+    if not backfill and os.environ.get("GITHUB_EVENT_NAME") == "schedule":
+        last = load_json(OUT / "data.json", {})
+        problems = [e for e in last.get("errors", []) if not e.startswith("[안내]")]
+        if (last.get("today") == today.isoformat()
+                and last.get("days", {}).get("prev", {}).get("date") == prev.isoformat()
+                and not problems):
+            print("오늘 수집이 이미 정상적으로 끝나 이번 예약 실행은 건너뜀")
+            return
+        if last.get("today") == today.isoformat():
+            print(f"오늘 앞선 실행에 문제가 있어 다시 수집: {problems[:3]}")
 
     if backfill:
         start = dt.date.fromisoformat(start_s)
