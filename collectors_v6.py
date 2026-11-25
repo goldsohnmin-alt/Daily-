@@ -1119,7 +1119,12 @@ def _gr_rows(driver=None):
 
 
 class TermSofrNotYet(RuntimeError):
-    """global-rates 에 그 날짜 값이 아직 올라오지 않음(고장이 아니라 시간 문제)."""
+    """global-rates 에 그 날짜 값이 아직 올라오지 않음(고장이 아니라 시간 문제).
+    last_date / last_value: 페이지에 있는 가장 최근 날짜와 값(임시로 채울 때 쓴다)."""
+
+    def __init__(self, msg, last_date=None, last_value=None):
+        super().__init__(msg)
+        self.last_date, self.last_value = last_date, last_value
 
 
 def scrape_term_sofr_gr(target_date, driver=None):
@@ -1132,8 +1137,8 @@ def scrape_term_sofr_gr(target_date, driver=None):
     if rows and max(rows) < target_date:
         # 페이지가 아직 그 날짜까지 올라오지 않음(미국 시간으로 아직 발표 전이거나 반영이 늦음).
         # 앞 날짜 값을 대신 저장하면 틀린 값이 남으므로 실패로 두고 다음 실행에서 다시 받는다.
-        raise TermSofrNotYet(f"global-rates 에 아직 {target_date} 값이 올라오지 않아 비워 둠"
-                             f"(마지막 날짜 {max(rows)}) - 다음 날 '전전일'로 다시 받아 채움")
+        raise TermSofrNotYet(f"global-rates 에 아직 {target_date} 값이 올라오지 않음(마지막 날짜 {max(rows)})",
+                             max(rows), rows[max(rows)])
     # 그 날짜 뒤의 값은 있는데 그 날짜만 없으면 미국 휴일 -> 가장 가까운 이전 날짜 값을 쓴다
     earlier = [d for d in rows if d <= target_date and (target_date - d).days <= 5]
     if earlier:

@@ -207,7 +207,9 @@ function renderDate() {
     if (l === 'Term SOFR') {
       const t = termSofr(date);
       if (t === undefined) return '<tr><td class="l">' + l + '</td><td class="lock">비밀번호 입력 시 표시</td></tr>';
-      return '<tr><td class="l">' + l + '</td>' + (t === null ? '<td class="miss">미수집</td>' : '<td>' + t + '</td>') + '</tr>';
+      const tmp = PRIV && PRIV._임시 && PRIV._임시[date];   // 아직 발표 전이라 앞 날짜 값을 임시로 넣은 날
+      return '<tr><td class="l">' + l + '</td>' + (t === null ? '<td class="miss">미수집</td>'
+        : '<td>' + t + (tmp ? ' <span class="miss">(임시: ' + tmp + ' 값)</span>' : '') + '</td>') + '</tr>';
     }
     const v = refVal(date, l);
     return '<tr><td class="l">' + l + '</td>' + (v === null ? '<td class="miss">미수집</td>' : '<td>' + v + '</td>') + '</tr>';
@@ -276,7 +278,7 @@ async function unlock(pw, silent) {
   }
   try {
     PRIV = await decryptPrivate(PBLOB, pw);
-    msg.textContent = '확인됨 · Term SOFR ' + Object.keys(PRIV).length + '일치 표시 중'; msg.className = 'ok';
+    msg.textContent = '확인됨 · Term SOFR ' + Object.keys(PRIV).filter(k => k[0] !== '_').length + '일치 표시 중'; msg.className = 'ok';
     try { if ($('remember').checked) localStorage.setItem('pw', pw); } catch (e) {}
     renderDate(); renderRange();
   } catch (e) {

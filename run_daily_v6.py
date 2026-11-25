@@ -142,13 +142,21 @@ def collect_day(driver, target, errors, tag, dbg_prefix=None, quiet_sofr=False):
     if irs_crs:
         ref["IRS(3Y)"], ref["CRS(3년)"] = irs_crs
 
+    sofr_tmp = None
+
     def get_sofr():
+        nonlocal sofr_tmp
         try:
             return scrape_term_sofr_gr(target)
-        except TermSofrNotYet as e:  # 아직 발표 전: 오류가 아니라 안내(파란 상자), 다시 시도할 필요 없음
-            if not quiet_sofr:
-                errors.append(f"[안내] [{tag}] Term SOFR: {e}")
-            return None
+        except TermSofrNotYet as e:
+            # 아직 발표 전: 비워 두지 않고 마지막(전 영업일) 값을 임시로 넣고 표시한다(사용자 2026-11-25).
+            # 다음 날 이 날짜를 '전전일'로 다시 받을 때 실제 값으로 바뀐다.
+            if quiet_sofr or e.last_value is None:
+                return None
+            sofr_tmp = e.last_date.isoformat()
+            errors.append(f"[안내] [{tag}] Term SOFR: {target} 값이 아직 발표 전이라 {sofr_tmp} 값을 임시로 넣음"
+                          " - 다음 날 실제 값으로 바뀜")
+            return e.last_value, None
 
     tsofr = run("Term SOFR", get_sofr, browser=False, quiet=quiet_sofr)
     if tsofr:
@@ -161,7 +169,7 @@ def collect_day(driver, target, errors, tag, dbg_prefix=None, quiet_sofr=False):
     ref["다우지수"] = run("네이버 다우지수", lambda: scrape_naver_dow(target, driver), browser=False)
 
     ref = {k: clean(v) for k, v in ref.items()}
-    return {"date": target.isoformat(), "matrix": matrix, "ref": ref}
+    return {"date": target.isoformat(), "matrix": matrix, "ref": ref, "sofr_tmp": sofr_tmp}
 
 
 HISTORY_PATH = OUT / "history.json"      # 날짜별 공개 데이터(채권 표 + Term SOFR 제외 지표)
@@ -466,8 +474,20 @@ def main():
                 errors.append("[Term SOFR 저장 보류] 이전 기록을 열지 못했어요(비밀번호가 바뀌었나요?). "
                               "기존 기록을 지키려고 이번에는 저장하지 않았습니다 - XLSX_PASSWORD 를 원래 값으로 되돌려 주세요")
         if can_save:
+            # "_임시": {날짜: 대신 넣은 날짜} - 아직 발표 전이라 앞 날짜 값을 넣은 날(사이트에 '임시'로 표시)
+            tmp = priv.pop("_임시", {})
+            for d in results.values():
+                if d["ref"]["Term SOFR"] is None:
+                    continue
+                if d.get("sofr_tmp"):
+                    tmp[d["date"]] = d["sofr_tmp"]
+                else:
+                    tmp.pop(d["date"], None)      # 실제 값을 받았으면 임시 표시를 지운다
             priv.update(sofr_new)
             priv = {k: priv[k] for k in sorted(priv)[-HISTORY_KEEP:]}
+            tmp = {k: v for k, v in tmp.items() if k in priv}
+            if tmp:
+                priv["_임시"] = tmp
             with open(PRIVATE_PATH, "w", encoding="utf-8") as f:
                 json.dump(encrypt_json(priv, pw), f)
             errors.append("[안내] Term SOFR: 공개 페이지에는 싣지 않고 비밀번호로 잠가 보관 - 사이트에서 비밀번호를 입력하면 표시")
