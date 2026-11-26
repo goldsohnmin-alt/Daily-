@@ -107,6 +107,10 @@ def main() -> int:
         log("XLSX_PASSWORD 환경 변수가 없어 이번 Term SOFR 는 저장되지 않습니다.")
     if not wait_for_actions():
         return 1
+    # 앞 실행이 중간에 끊겨(작업 스케줄러 시간 제한 등) 남긴 docs/ 변경은 버린다.
+    # 남겨 두면 받기(pull) 때 충돌 표시가 섞인 파일이 올라간다(2026-11-26 docs/debug/net_bond.txt).
+    git("checkout", "--", "docs", check=False)
+    git("clean", "-fq", "--", "docs/debug", check=False)     # 끊긴 실행이 새로 만든 디버그 파일
     git("pull", "--rebase", "--autostash", "-q")
 
     os.environ["SKIP_IF_DONE"] = "1"
@@ -114,6 +118,10 @@ def main() -> int:
         os.environ.pop(k, None)
     rd.main()
 
+    # docs/debug(수집 실패 때 남기는 화면·응답 기록)는 PC에서 올리지 않는다:
+    # 사이트 응답에 이 PC의 인터넷 주소(IP)가 찍혀 공개 저장소에 남기 때문(2026-11-26)
+    git("checkout", "--", "docs/debug", check=False)
+    git("clean", "-fq", "--", "docs/debug", check=False)
     if not git("status", "--porcelain", "--", "docs").stdout.strip():
         log("바뀐 결과가 없습니다.")
         return 0
